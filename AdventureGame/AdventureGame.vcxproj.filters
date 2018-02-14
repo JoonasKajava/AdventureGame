@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Entities">
       <UniqueIdentifier>{b6b892d0-fa00-48e2-8f5c-8865dcd48fe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameLogic">
+      <UniqueIdentifier>{4bf50bea-7c90-47be-8ace-7513a26c5a8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameLogic">
+      <UniqueIdentifier>{3085463c-7686-4b82-8983-201071367c0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -38,6 +44,15 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Header Files\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,8 +74,82 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Source Files\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Graphics\dg_edging132.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_edging232.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_edging332.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_extra132.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_features32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_misc32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster132.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster232.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster332.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster432.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster532.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster632.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_monster732.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_undead32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_uniques32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\dg_weapons32.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\hahmo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\house.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\kivi_kaupunki.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\lohikaarme.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Graphics\terrain.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

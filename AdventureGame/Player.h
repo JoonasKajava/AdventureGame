@@ -10,7 +10,9 @@ class Character;
 class Player : public  Character
 {
 public:
-	Player(const GameContext &context, bool AddToDrawQueue = true);
+	Player(GameContext &context, bool AddToDrawQueue = true);
 	~Player();
+
+	void HandleInput();
 };
 

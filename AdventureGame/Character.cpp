@@ -6,7 +6,7 @@
 #include "GameEntity.h"
 
 
-Character::Character(const GameContext & context, bool AddToDrawQueue) : GameEntity(context, AddToDrawQueue)
+Character::Character(GameContext& context, bool AddToDrawQueue) : GameEntity(context, AddToDrawQueue)
 {
 
 }

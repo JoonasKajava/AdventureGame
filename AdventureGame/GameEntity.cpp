@@ -1,14 +1,15 @@
 #pragma once
 #include "stdafx.h"
 #include "GameEntity.h"
+#include "GameContext.h"
 #include <SFML\Graphics.hpp>
 
 using namespace sf;
 
 
-GameEntity::GameEntity(const GameContext &context, bool AddToDrawQueue)
+GameEntity::GameEntity(GameContext &context, bool AddToDrawQueue) : gameContext(context)
 {
-	//context.DrawQueue.push_back(this);
+	gameContext.DrawQueue.push_back(this);
 }
 
 GameEntity::~GameEntity()

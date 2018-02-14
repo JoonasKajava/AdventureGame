@@ -8,9 +8,10 @@ class Character :
 	public GameEntity
 {
 public:
-	Character(const GameContext &context, bool AddToDrawQueue = true);
+	Character(GameContext &context, bool AddToDrawQueue = true);
 	~Character();
 
+	double MovementSpeed;
 
 	// Character Attributes
 	int Health;

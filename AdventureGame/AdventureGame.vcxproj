@@ -158,8 +158,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Environment.h" />
+    <ClInclude Include="EventHandler.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -167,8 +170,11 @@
   <ItemGroup>
     <ClCompile Include="AdventureGame.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -179,6 +185,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Graphics\dg_edging132.png" />
+    <Image Include="Graphics\dg_edging232.png" />
+    <Image Include="Graphics\dg_edging332.png" />
+    <Image Include="Graphics\dg_extra132.png" />
+    <Image Include="Graphics\dg_features32.png" />
+    <Image Include="Graphics\dg_misc32.png" />
+    <Image Include="Graphics\dg_monster132.png" />
+    <Image Include="Graphics\dg_monster232.png" />
+    <Image Include="Graphics\dg_monster332.png" />
+    <Image Include="Graphics\dg_monster432.png" />
+    <Image Include="Graphics\dg_monster532.png" />
+    <Image Include="Graphics\dg_monster632.png" />
+    <Image Include="Graphics\dg_monster732.png" />
+    <Image Include="Graphics\dg_undead32.png" />
+    <Image Include="Graphics\dg_uniques32.png" />
+    <Image Include="Graphics\dg_weapons32.png" />
+    <Image Include="Graphics\hahmo.png" />
+    <Image Include="Graphics\house.png" />
+    <Image Include="Graphics\kivi_kaupunki.png" />
+    <Image Include="Graphics\lohikaarme.png" />
+    <Image Include="Graphics\terrain.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
