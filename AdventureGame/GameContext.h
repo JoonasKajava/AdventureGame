@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "EventHandler.h"
 #include "Environment.h"
+#include "GameInfoPanel.h"
 
 class GameContext
 {
@@ -23,6 +24,7 @@ public:
 
     Environment environment;
 	EventHandler eventHandler;
+	GameInfoPanel gameInfoPanel;
 
 	std::vector<sf::Drawable*> DrawQueue;
 
