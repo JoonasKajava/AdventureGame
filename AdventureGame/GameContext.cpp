@@ -10,6 +10,8 @@ GameContext::GameContext(Map& map) : MainPlayer(*this), eventHandler(*this), env
 
 	this->window.setKeyRepeatEnabled(true);
 	this->mainView.setCenter(this->MainPlayer.Body.getPosition());
+	this->mainView.setSize(sf::Vector2f(1000, 700));
+	this->mainView.zoom(0.5f);
 	this->mainView.setViewport(sf::FloatRect(0, 0, 1, 0.7f));
 	this->window.setView(mainView);
 }
