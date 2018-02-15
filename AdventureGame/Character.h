@@ -21,7 +21,15 @@ public:
 	int Speed;
 	int Luck;
 
-	
+	enum Direction
+	{
+		Up,
+		Right,
+		Down,
+		Left
+	};
+
+	bool Move(Direction direction);
 
 };
 

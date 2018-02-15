@@ -7,7 +7,7 @@
 
 Player::Player(GameContext & context, bool AddToDrawQueue) : Character(context, AddToDrawQueue)
 {
-	MovementSpeed = 0.15;
+	MovementSpeed = 0.0001;
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
 	Body = sf::Sprite(*playerTexture);
@@ -20,26 +20,23 @@ Player::~Player()
 {
 }
 
-
-
 void Player::HandleInput()
 {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-
-		gameContext.MainPlayer.Body.move(gameContext.deltaTime * MovementSpeed, 0);
+		if(gameContext.MainPlayer.Move(Direction::Right))
 		gameContext.mainView.move(gameContext.deltaTime * MovementSpeed, 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		gameContext.MainPlayer.Body.move(-gameContext.deltaTime * MovementSpeed, 0);
+		if(gameContext.MainPlayer.Move(Direction::Left))
 		gameContext.mainView.move(-gameContext.deltaTime * MovementSpeed, 0);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		gameContext.MainPlayer.Body.move(0, gameContext.deltaTime * MovementSpeed);
+		if(gameContext.MainPlayer.Move(Direction::Down))
 		gameContext.mainView.move(0, gameContext.deltaTime * MovementSpeed);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		gameContext.MainPlayer.Body.move(0, -gameContext.deltaTime * MovementSpeed);
+		if(gameContext.MainPlayer.Move(Direction::Up))
 		gameContext.mainView.move(0, -gameContext.deltaTime * MovementSpeed);
 	}
 

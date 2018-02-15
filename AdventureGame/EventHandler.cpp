@@ -14,6 +14,8 @@ EventHandler::~EventHandler()
 
 
 void EventHandler::PollEvents() {
+
+	gameContext.MainPlayer.HandleInput();
 	while (gameContext.window.pollEvent(this->event))
 	{
 		switch (this->event.type)
@@ -25,6 +27,4 @@ void EventHandler::PollEvents() {
 			break;
 		}
 	}
-
-	gameContext.MainPlayer.HandleInput();
 }
