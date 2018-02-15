@@ -11,13 +11,8 @@
 class GameContext
 {
 public:
-	GameContext(Map& map);
-	~GameContext();
 
 	int deltaTime;
-
-	Player MainPlayer;
-
 
 	sf::RenderWindow window;
 	sf::View mainView = sf::View(sf::FloatRect(0,50,400,400));
@@ -26,6 +21,14 @@ public:
 	EventHandler eventHandler;
 	GameInfoPanel gameInfoPanel;
 
-	std::vector<sf::Drawable*> DrawQueue;
 
+	std::vector<sf::Drawable*> DrawQueue;
+	Player* MainPlayer;
+
+	static GameContext* CreateInstace();
+	static GameContext* instance;
+private:
+	
+	GameContext(Map& map);
+	~GameContext();
 };

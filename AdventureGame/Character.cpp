@@ -8,7 +8,7 @@
 #include <iostream>
 
 
-Character::Character(GameContext& context, bool AddToDrawQueue) : GameEntity(context, AddToDrawQueue)
+Character::Character( bool AddToDrawQueue) : GameEntity( AddToDrawQueue)
 {
 
 }
@@ -24,18 +24,18 @@ bool Character::Move(Direction direction)
 	position.x = position.x / 32;
 	position.y = position.y / 32;
 
-	int rightTile = gameContext.environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 + 1)];
-	int LeftTile = gameContext.environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 - 1)];
-	int UpTile = gameContext.environment.map.terrain[int(position.y + 0.5 - 1)][int(position.x + 0.5)];
-	int DownTile = gameContext.environment.map.terrain[int(position.y + 0.5 + 1)][int(position.x + 0.5)];
+	int rightTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 + 1)];
+	int LeftTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 - 1)];
+	int UpTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5 - 1)][int(position.x + 0.5)];
+	int DownTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5 + 1)][int(position.x + 0.5)];
 
-	int blockedTilesSize = sizeof(gameContext.environment.map.blockedtiles) / sizeof(gameContext.environment.map.blockedtiles[0]);
+	int blockedTilesSize = sizeof(GameContext::instance->environment.map.blockedtiles) / sizeof(GameContext::instance->environment.map.blockedtiles[0]);
 
 
 	bool BlockRight = false, BlockLeft = false, BlockUp = false, BlockDown = false;
 
 	for (int i = 0; i < blockedTilesSize; i++) {
-		int tile = gameContext.environment.map.blockedtiles[i];
+		int tile = GameContext::instance->environment.map.blockedtiles[i];
 
 
 		if (rightTile == tile && (int(position.x + 0.5) * 32 - normalposition.x) < 1) {
@@ -57,25 +57,25 @@ bool Character::Move(Direction direction)
 	{
 	case Right:
 		if (!BlockRight) {
-			Body.move(gameContext.deltaTime * MovementSpeed, 0);
+			Body.move(GameContext::instance->deltaTime * MovementSpeed, 0);
 			return true;
 		}
 		break;
 	case Left:
 		if (!BlockLeft) {
-			Body.move(-gameContext.deltaTime * MovementSpeed, 0);
+			Body.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
 			return true;
 		}
 		break;
 	case Up:
 		if (!BlockUp) {
-			Body.move(0, -gameContext.deltaTime * MovementSpeed);
+			Body.move(0, -GameContext::instance->deltaTime * MovementSpeed);
 			return true;
 		}
 		break;
 	case Down:
 		if (!BlockDown) {
-			Body.move(0, gameContext.deltaTime * MovementSpeed);
+			Body.move(0, GameContext::instance->deltaTime * MovementSpeed);
 			return true;
 		}
 		break;

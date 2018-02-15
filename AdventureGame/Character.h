@@ -2,13 +2,12 @@
 
 #include "GameEntity.h"
 
-class GameContext;
 
 class Character :
 	public GameEntity
 {
 public:
-	Character(GameContext &context, bool AddToDrawQueue = true);
+	Character(bool AddToDrawQueue = true);
 	~Character();
 
 	double MovementSpeed;

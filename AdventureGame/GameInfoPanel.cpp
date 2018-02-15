@@ -3,7 +3,7 @@
 #include "GameInfoPanel.h"
 
 
-GameInfoPanel::GameInfoPanel(GameContext & context) : gamecontext(context)
+GameInfoPanel::GameInfoPanel()
 {
 	this->ChatFont.loadFromFile("Fonts/wcp.ttf");
 }
@@ -27,7 +27,7 @@ void GameInfoPanel::draw(sf::RenderTarget & target, sf::RenderStates states) con
 		sf::Text text("> " + Chat[i], ChatFont);
 		text.setFillColor(sf::Color::White);
 		sf::Transform transform;
-		transform.translate(10, gamecontext.window.getSize().y * 0.7 + 10 + (35 * i));
+		transform.translate(10, GameContext::instance->window.getSize().y * 0.7 + 10 + (35 * i));
 		states.transform = transform;
 		target.draw(text, states);
 	}

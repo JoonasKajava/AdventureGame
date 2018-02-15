@@ -7,9 +7,9 @@
 using namespace sf;
 
 
-GameEntity::GameEntity(GameContext &context, bool AddToDrawQueue) : gameContext(context)
+GameEntity::GameEntity(bool AddToDrawQueue) 
 {
-	gameContext.DrawQueue.push_back(this);
+	if(AddToDrawQueue)GameContext::instance->DrawQueue.push_back(this);
 }
 
 GameEntity::~GameEntity()

@@ -4,12 +4,10 @@
 class EventHandler
 {
 public:
-	EventHandler(GameContext& context);
+	EventHandler();
 	~EventHandler();
 
 	sf::Event event;
-
-	GameContext& gameContext;
 
 	void PollEvents();
 };

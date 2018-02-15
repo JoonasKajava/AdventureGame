@@ -25,6 +25,12 @@
     <Filter Include="Header Files\GameLogic">
       <UniqueIdentifier>{3085463c-7686-4b82-8983-201071367c0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Entities\NPCs">
+      <UniqueIdentifier>{d6138cfb-d4b2-466d-a610-dc175ca698ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\NPCs">
+      <UniqueIdentifier>{30448e89-e891-428a-8862-f130f7751783}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -57,6 +63,12 @@
     <ClInclude Include="GameInfoPanel.h">
       <Filter>Header Files\GameLogic</Filter>
     </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GuideNPC.h">
+      <Filter>Header Files\Entities\NPCs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="GameInfoPanel.cpp">
       <Filter>Source Files\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GuideNPC.cpp">
+      <Filter>Source Files\Entities\NPCs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

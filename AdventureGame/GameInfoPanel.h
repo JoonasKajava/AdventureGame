@@ -7,10 +7,8 @@ class GameInfoPanel : public sf::Drawable
 	std::vector<std::string> Chat;
 	sf::Font ChatFont;
 public:
-	GameInfoPanel(GameContext& context);
+	GameInfoPanel();
 	~GameInfoPanel();
-
-	GameContext& gamecontext;
 
 	
 	bool BattleMode = false;

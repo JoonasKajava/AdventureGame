@@ -11,7 +11,7 @@ Environment::~Environment()
 }
 
 
-Environment::Environment(GameContext& gameContext, Map& map) : context(gameContext), map(map)
+Environment::Environment(Map& map) : map(map)
 {
 }
 
@@ -21,12 +21,12 @@ float clip(float n, float lower, float upper) {
 
 void Environment::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	sf::Vector2f position = context.MainPlayer.Body.getPosition();
+	sf::Vector2f position = GameContext::instance->MainPlayer->Body.getPosition();
 
 	position.x = position.x / 32;
 	position.y = position.y / 32;
 
-	sf::FloatRect viewDimensions = context.mainView.getViewport();
+	sf::FloatRect viewDimensions = GameContext::instance->mainView.getViewport();
 
 	int ViewDistance =  viewDimensions.width / 2 * 32;
 

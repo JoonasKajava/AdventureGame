@@ -8,10 +8,9 @@ class GameContext;
 class Environment : public sf::Drawable
 {
 public:
-	Environment(GameContext& gameContext, Map& map);
+	Environment( Map& map);
 	~Environment();
 
-	GameContext& context;
 	const Map& map;
 
 
