@@ -13,7 +13,7 @@ Player::Player(bool AddToDrawQueue) : Character( AddToDrawQueue)
 	Body = sf::Sprite(*playerTexture);
 
 	Body.setPosition(128, 128);
-
+	this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
 }
 
 Player::~Player()
@@ -25,10 +25,14 @@ void Player::HandleInput()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if(GameContext::instance->MainPlayer->Move(Direction::Right))
 			GameContext::instance->mainView.move(GameContext::instance->deltaTime * MovementSpeed, 0);
+		this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
+		this->Body.setScale(sf::Vector2f(1,1));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if(GameContext::instance->MainPlayer->Move(Direction::Left))
 			GameContext::instance->mainView.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
+		this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
+		this->Body.setScale(sf::Vector2f(-1, 1));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		if(GameContext::instance->MainPlayer->Move(Direction::Down))

@@ -2,42 +2,67 @@
 #include <iostream>
 #include "Map.h"
 
+#include <tmxlite\TileLayer.hpp>
+
 Map::Map()
 {
+
+	map.load("./Map.tmx");
+	const auto& layers = map.getLayers();
 	this->TerrainTexture.loadFromFile("Graphics/terrain.png");
 
-	this->Misc1.loadFromFile("Graphics/house.png");
-	this->Misc2.loadFromFile("Graphics/dg_edging232.png");
-	this->Misc3.loadFromFile("Graphics/dg_edging132.png");
-	this->Misc4.loadFromFile("Graphics/dg_edging332.png");
 
-	SpriteMap[1] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 416, 32, 32));
-	SpriteMap[2] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 32, 32, 32));
-	SpriteMap[3] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 192, 32, 32));
-	SpriteMap[4] = new sf::Sprite(Misc3, sf::IntRect(160, 448, 32, 32));
-	SpriteMap[5] = new sf::Sprite(Misc4, sf::IntRect(128, 288, 32, 32));
-	SpriteMap[6] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 64, 32, 32));
-	SpriteMap[7] = new sf::Sprite(TerrainTexture, sf::IntRect(96, 64, 32, 32));
-	SpriteMap[8] = new sf::Sprite(TerrainTexture, sf::IntRect(32, 128, 32, 32));
-	SpriteMap[9] = new sf::Sprite(TerrainTexture, sf::IntRect(96, 288, 32, 32));
-	SpriteMap[10] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 320, 32, 32));
-	SpriteMap[11] = new sf::Sprite(TerrainTexture, sf::IntRect(192, 288, 32, 32));
-	SpriteMap[12] = new sf::Sprite(TerrainTexture, sf::IntRect(0, 224, 32, 32));
-	SpriteMap[13] = new sf::Sprite(TerrainTexture, sf::IntRect(160, 160, 32, 32));
-	SpriteMap[14] = new sf::Sprite(Misc1, sf::IntRect(64, 0, 32, 32));
-	SpriteMap[15] = new sf::Sprite(Misc2, sf::IntRect(0, 96, 32, 32));
-	SpriteMap[16] = new sf::Sprite(Misc2, sf::IntRect(0, 128, 32, 32));
-	SpriteMap[17] = new sf::Sprite(Misc2, sf::IntRect(0, 160, 32, 32));
-	SpriteMap[18] = new sf::Sprite(Misc2, sf::IntRect(32, 160, 32, 32));
-	SpriteMap[19] = new sf::Sprite(Misc2, sf::IntRect(64, 160, 32, 32));
-	SpriteMap[20] = new sf::Sprite(Misc2, sf::IntRect(64, 128, 32, 32));
-	SpriteMap[21] = new sf::Sprite(Misc2, sf::IntRect(64, 96, 32, 32));
-	SpriteMap[22] = new sf::Sprite(Misc2, sf::IntRect(32, 96, 32, 32));
-	SpriteMap[23] = new sf::Sprite(Misc3, sf::IntRect(224, 448, 32, 32));
-	SpriteMap[24] = new sf::Sprite(Misc4, sf::IntRect(128, 224, 32, 32));
-	SpriteMap[25] = new sf::Sprite(Misc3, sf::IntRect(160, 416, 32, 32));
+	int width = map.getBounds().width / map.getTileSize().x;
+	int height = map.getBounds().height / map.getTileSize().y;
+	int layersCount = layers.size();
+	verticles.resize(width * height * 4 * layersCount);
+
+	verticles.setPrimitiveType(sf::Quads);
+	int count = 0;
+	for (const auto& layerref : layers) {
+		const auto& layer = *dynamic_cast<const tmx::TileLayer*>(layerref.get());
+		const auto& tiles = layer.getTiles();
+
+
+	
+
+		for (int y = 0; y < width; y++)
+		{
+			for (int x = 0; x < height; x++)
+			{
+				int tileNumber = tiles[x + y * width].ID - 1;
+				if (tileNumber < 0) continue;
+				int tileXinTexture = tileNumber % (TerrainTexture.getSize().x / 32);
+				int tileYinTexture = tileNumber / (TerrainTexture.getSize().x / 32);
+				int test = width * height * 4 * count;
+
+				sf::Vertex* quad = &verticles[(width * height * 4 * count) + (x + y * width) * 4];
+
+				quad[0].position = sf::Vector2f(x * 32, y * 32);
+				quad[1].position = sf::Vector2f((x + 1) * 32, y * 32);
+				quad[2].position = sf::Vector2f((x + 1) * 32, (y + 1) * 32);
+				quad[3].position = sf::Vector2f(x * 32, (y + 1) * 32);
+
+				quad[0].texCoords = sf::Vector2f(tileXinTexture * 32, tileYinTexture * 32);
+				quad[1].texCoords = sf::Vector2f((tileXinTexture + 1) * 32, tileYinTexture * 32);
+				quad[2].texCoords = sf::Vector2f((tileXinTexture + 1) * 32, (tileYinTexture + 1) * 32);
+				quad[3].texCoords = sf::Vector2f(tileXinTexture * 32, (tileYinTexture + 1) * 32);
+			}
+		}
+		count++;
+	}
+
 }
 
 Map::~Map()
 {
+}
+
+void Map::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+		states.transform *= getTransform();
+		states.texture = &TerrainTexture;
+
+		target.draw(verticles, states);
+
 }
