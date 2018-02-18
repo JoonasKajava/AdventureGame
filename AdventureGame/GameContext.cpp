@@ -25,6 +25,8 @@ GameContext::GameContext(Map& map) : environment( map)
 	this->mainView.zoom(0.5f);
 	this->mainView.setViewport(sf::FloatRect(0, 0, 1, 0.7f));
 
+	gameInfoPanel.SetState(gameInfoPanel.World);
+
 	gameInfoPanel.AddText("You find yourself in land filled with monsters");
 	gameInfoPanel.AddText("Explore the land and speak with the villagers");
 	gameInfoPanel.AddText("They might know secrets about these lands");

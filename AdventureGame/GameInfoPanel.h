@@ -4,17 +4,34 @@
 
 class GameInfoPanel : public sf::Drawable
 {
-	std::vector<std::string> Chat;
+	std::vector<std::string> GameInfo;
+
+	std::vector<std::string> ChatInfo;
+
+	std::vector<std::string> BattleInfo;
+
+	std::vector<std::string>* CurrentInfo;
+
 	sf::Font ChatFont;
+
 public:
+
+
+	enum State {
+		Battle,
+		Chat,
+		World
+	};
+
 	GameInfoPanel();
 	~GameInfoPanel();
 
 	
-	bool BattleMode = false;
+	State state = World;
 
 	void AddText(std::string Message);
 
+	void SetState(State s);
 
 	void OnItemDrop();
 
@@ -22,6 +39,5 @@ public:
 
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 };
 

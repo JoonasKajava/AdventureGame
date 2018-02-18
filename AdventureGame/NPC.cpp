@@ -16,6 +16,8 @@ void NPC::OnClick()
 {
 	if (this->CanSpeak) {
 		GameContext::instance->MainPlayer->Speaking = true;
+		GameContext::instance->gameInfoPanel.SetState(GameContext::instance->gameInfoPanel.Chat);
+
 	}
-	std::cout << "test";
+
 }
