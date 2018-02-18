@@ -7,6 +7,7 @@
 #include "EventHandler.h"
 #include "Environment.h"
 #include "GameInfoPanel.h"
+#include "NPC.h"
 
 class GameContext
 {
@@ -23,7 +24,11 @@ public:
 
 
 	std::vector<sf::Drawable*> DrawQueue;
+
+
 	Player* MainPlayer;
+
+	std::vector<NPC*> NPCs;
 
 	static GameContext* CreateInstace();
 	static GameContext* instance;

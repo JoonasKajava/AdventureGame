@@ -1,7 +1,7 @@
 #pragma once
-#include "Character.h"
+#include "NPC.h"
 
-class GuideNPC : public Character
+class GuideNPC : public NPC
 {
 public:
 	GuideNPC();

@@ -6,9 +6,10 @@
 #include "GameEntity.h"
 
 #include <iostream>
+#include <algorithm>
+#include <math.h>
 
-
-Character::Character( bool AddToDrawQueue) : GameEntity( AddToDrawQueue)
+Character::Character(bool AddToDrawQueue) : GameEntity(AddToDrawQueue)
 {
 
 }
@@ -19,65 +20,61 @@ Character::~Character()
 
 bool Character::Move(Direction direction)
 {
-	sf::Vector2f normalposition = Body.getPosition(), position = Body.getPosition();
+	sf::Vector2f position = Body.getPosition();
 
 	position.x = position.x / 32;
 	position.y = position.y / 32;
 
-	int rightTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 + 1)];
-	int LeftTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5)][int(position.x + 0.5 - 1)];
-	int UpTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5 - 1)][int(position.x + 0.5)];
-	int DownTile = GameContext::instance->environment.map.terrain[int(position.y + 0.5 + 1)][int(position.x + 0.5)];
 
-	int blockedTilesSize = sizeof(GameContext::instance->environment.map.blockedtiles) / sizeof(GameContext::instance->environment.map.blockedtiles[0]);
+	const std::vector<sf::Vector2i>& blockedtiles = GameContext::instance->environment.map.blockedtiles;
 
-
-	bool BlockRight = false, BlockLeft = false, BlockUp = false, BlockDown = false;
-
-	for (int i = 0; i < blockedTilesSize; i++) {
-		int tile = GameContext::instance->environment.map.blockedtiles[i];
-
-
-		if (rightTile == tile && (int(position.x + 0.5) * 32 - normalposition.x) < 1) {
-			BlockRight = true;
+	sf::Vector2i RightTile = sf::Vector2i(position.x + 1, position.y);
+	sf::Vector2i LeftTile = sf::Vector2i(position.x - 1, position.y);
+	sf::Vector2i TopTile = sf::Vector2i(position.x, position.y - 1);
+	sf::Vector2i BottomTile = sf::Vector2i(position.x, position.y + 1);
+	sf::FloatRect Bounds = Body.getGlobalBounds();
+	double speed = GameContext::instance->deltaTime * MovementSpeed;
+	switch (direction) {
+	case Right:
+		Bounds.left += speed;
+		break;
+	case Left:
+		Bounds.left -= speed;
+		break;
+	case Up:
+		Bounds.top -= speed;
+		break;
+	case Down:
+		Bounds.top += speed;
+		break;
+	default:
+		break;
+	}
+	Bounds.width = 31;
+	Bounds.height = 31;
+	for (const sf::Vector2i& tile : blockedtiles) {
+		if (Bounds.intersects(sf::FloatRect(tile.x * 32, tile.y * 32, 32, 32))) {
+			return false;
 		}
-		if (LeftTile == tile && (normalposition.x - int(position.x + 0.5) * 32) < 1) {
-			BlockLeft = true;
-		}
-		if (UpTile == tile && (normalposition.y - int(position.y + 0.5) * 32) < 1) {
-			BlockUp = true;
-		}
-		if (DownTile == tile && (int(position.y + 0.5) * 32 - normalposition.y) < 1) {
-			BlockDown = true;
-		}
-
 	}
 
 	switch (direction)
 	{
 	case Right:
-		if (!BlockRight) {
-			Body.move(GameContext::instance->deltaTime * MovementSpeed, 0);
+			Body.move(speed, 0);
 			return true;
-		}
 		break;
 	case Left:
-		if (!BlockLeft) {
-			Body.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
+			Body.move(-speed, 0);
 			return true;
-		}
 		break;
 	case Up:
-		if (!BlockUp) {
-			Body.move(0, -GameContext::instance->deltaTime * MovementSpeed);
+			Body.move(0, -speed);
 			return true;
-		}
 		break;
 	case Down:
-		if (!BlockDown) {
-			Body.move(0, GameContext::instance->deltaTime * MovementSpeed);
+			Body.move(0, speed);
 			return true;
-		}
 		break;
 	default:
 		break;

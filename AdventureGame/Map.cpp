@@ -11,6 +11,9 @@ Map::Map()
 	const auto& layers = map.getLayers();
 	this->TerrainTexture.loadFromFile("Graphics/terrain.png");
 
+	const auto& tileset = map.getTilesets()[0];
+
+	const auto& tilesettiles = tileset.getTiles();
 
 	int width = map.getBounds().width / map.getTileSize().x;
 	int height = map.getBounds().height / map.getTileSize().y;
@@ -24,13 +27,27 @@ Map::Map()
 		const auto& tiles = layer.getTiles();
 
 
-	
-
 		for (int y = 0; y < width; y++)
 		{
 			for (int x = 0; x < height; x++)
 			{
 				int tileNumber = tiles[x + y * width].ID - 1;
+
+
+				for (const auto& tilesettile : tilesettiles) {
+					if (tilesettile.ID == tileNumber) {
+						const auto& tileproperties = tilesettile.properties;
+
+						for (const auto& property : tileproperties) {
+							if (property.getName() == "block" && property.getBoolValue()) {
+								blockedtiles.push_back(sf::Vector2i(x, y));
+							}
+						}
+					}
+				}
+
+
+
 				if (tileNumber < 0) continue;
 				int tileXinTexture = tileNumber % (TerrainTexture.getSize().x / 32);
 				int tileYinTexture = tileNumber / (TerrainTexture.getSize().x / 32);

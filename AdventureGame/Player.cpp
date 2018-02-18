@@ -5,7 +5,7 @@
 #include "Character.h"
 #include <iostream>
 
-Player::Player(bool AddToDrawQueue) : Character( AddToDrawQueue)
+Player::Player(bool AddToDrawQueue) : Character(AddToDrawQueue)
 {
 	MovementSpeed = 0.0001;
 	sf::Texture* playerTexture = new sf::Texture();
@@ -13,7 +13,6 @@ Player::Player(bool AddToDrawQueue) : Character( AddToDrawQueue)
 	Body = sf::Sprite(*playerTexture);
 
 	Body.setPosition(128, 128);
-	this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
 }
 
 Player::~Player()
@@ -23,24 +22,50 @@ Player::~Player()
 void Player::HandleInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if(GameContext::instance->MainPlayer->Move(Direction::Right))
+		if (GameContext::instance->MainPlayer->Move(Direction::Right))
 			GameContext::instance->mainView.move(GameContext::instance->deltaTime * MovementSpeed, 0);
-		this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
-		this->Body.setScale(sf::Vector2f(1,1));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		if(GameContext::instance->MainPlayer->Move(Direction::Left))
+		if (GameContext::instance->MainPlayer->Move(Direction::Left))
 			GameContext::instance->mainView.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
-		this->Body.setOrigin(this->Body.getLocalBounds().width / 2, 0);
-		this->Body.setScale(sf::Vector2f(-1, 1));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		if(GameContext::instance->MainPlayer->Move(Direction::Down))
+		if (GameContext::instance->MainPlayer->Move(Direction::Down))
 			GameContext::instance->mainView.move(0, GameContext::instance->deltaTime * MovementSpeed);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		if(GameContext::instance->MainPlayer->Move(Direction::Up))
+		if (GameContext::instance->MainPlayer->Move(Direction::Up))
 			GameContext::instance->mainView.move(0, -GameContext::instance->deltaTime * MovementSpeed);
 	}
 
+
+
+}
+
+void Player::OnSingleMouseClick(sf::Event e)
+{
+	if (e.mouseButton.button == sf::Mouse::Button::Left) {
+
+		sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
+		for (NPC* npc : GameContext::instance->NPCs) {
+
+			sf::FloatRect hitbox = npc->Body.getGlobalBounds();
+			sf::Vector2i location = GameContext::instance->window.mapCoordsToPixel(sf::Vector2f(hitbox.left, hitbox.top), GameContext::instance->mainView);
+			hitbox = sf::FloatRect(location.x, location.y, 64, 64);
+			if (hitbox.contains(pos.x, pos.y)) {
+				sf::Vector2f playercenter = GameContext::instance->MainPlayer->Body.getPosition();
+				playercenter.x += 16;
+				playercenter.y += 16;
+
+				sf::Vector2f npccenter = npc->Body.getPosition();
+				npccenter.x += 16;
+				npccenter.y += 16;
+
+				if (sqrt(pow(playercenter.x - npccenter.x, 2) + pow(playercenter.y - npccenter.y, 2)) < 40) npc->OnClick();
+
+
+			}
+
+		}
+	}
 }

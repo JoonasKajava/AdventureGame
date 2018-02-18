@@ -6,7 +6,7 @@ class Map : public sf::Drawable, public sf::Transformable
 {
 public:
 
-	int blockedtiles[11] = { M,6,110,150,160,107,108,109,200,201,202 };
+	std::vector<sf::Vector2i> blockedtiles;
 
 	enum Tiles {
 		G = 17, // Grass

@@ -23,6 +23,9 @@ void EventHandler::PollEvents() {
 		case sf::Event::Closed:
 			GameContext::instance->window.close();
 			break;
+		case sf::Event::MouseButtonReleased:
+			GameContext::instance->MainPlayer->OnSingleMouseClick(this->event);
+			break;
 		default:
 			break;
 		}

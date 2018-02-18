@@ -13,5 +13,11 @@ public:
 	~Player();
 
 	void HandleInput();
+
+	void OnSingleMouseClick(sf::Event e);
+
+	bool Speaking;
+
+
 };
 

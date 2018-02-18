@@ -12,6 +12,6 @@ public:
 	bool CanSpeak = true;
 	int ChatState = 0;
 
-
+	void OnClick();
 };
 
