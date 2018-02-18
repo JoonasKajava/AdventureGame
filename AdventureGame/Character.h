@@ -10,6 +10,8 @@ public:
 	Character(bool AddToDrawQueue = true);
 	~Character();
 
+	bool Speaking;
+
 	double MovementSpeed;
 
 	// Character Attributes

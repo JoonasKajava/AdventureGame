@@ -6,5 +6,7 @@ class GuideNPC : public NPC
 public:
 	GuideNPC();
 	~GuideNPC();
+
+	 void Speak(int newStage = NULL) override;
 };
 

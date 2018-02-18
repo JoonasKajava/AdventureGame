@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Button.h"
 #include <SFML\Graphics.hpp>
 
 class GameInfoPanel : public sf::Drawable
@@ -12,10 +13,10 @@ class GameInfoPanel : public sf::Drawable
 
 	std::vector<std::string>* CurrentInfo;
 
-	sf::Font ChatFont;
 
 public:
-
+	sf::Font ChatFont;
+	std::map<int, Button*> Buttons;
 
 	enum State {
 		Battle,
@@ -30,6 +31,10 @@ public:
 	State state = World;
 
 	void AddText(std::string Message);
+	void AddText(std::string Message, std::string From);
+
+	void AddButton(std::string Text, int id);
+	void ClearButtons();
 
 	void SetState(State s);
 

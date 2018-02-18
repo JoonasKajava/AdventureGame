@@ -2,6 +2,7 @@
 
 
 #include "Character.h"
+#include "NPC.h"
 
 class Character;
 
@@ -14,10 +15,9 @@ public:
 
 	void HandleInput();
 
+	NPC* conversationWith;
+
 	void OnSingleMouseClick(sf::Event e);
-
-	bool Speaking;
-
 
 };
 

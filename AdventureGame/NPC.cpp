@@ -14,9 +14,12 @@ NPC::~NPC()
 
 void NPC::OnClick()
 {
-	if (this->CanSpeak) {
+	if (this->CanSpeak && !this->Speaking) {
 		GameContext::instance->MainPlayer->Speaking = true;
-		GameContext::instance->gameInfoPanel.SetState(GameContext::instance->gameInfoPanel.Chat);
+		this->Speaking = true;
+		GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Chat);
+		this->Speak();
+		GameContext::instance->MainPlayer->conversationWith = this;
 
 	}
 

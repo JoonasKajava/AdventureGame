@@ -4,7 +4,6 @@
 
 class NPC : public Character
 {
-	std::vector<std::string> Speaklog;
 
 public:
 	NPC();
@@ -13,5 +12,10 @@ public:
 	int ChatState = 0;
 
 	void OnClick();
+
+	int ConversationStage = 0;
+
+	virtual void Speak(int newStage = NULL) = 0;
+
 };
 
