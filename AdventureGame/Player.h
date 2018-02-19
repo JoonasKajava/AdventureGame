@@ -22,6 +22,7 @@ public:
 	void StartConversation(NPC* npc);
 
 	void EndConversation();
-
+private:
+	float ConversationZoom = 0.3f;
 };
 

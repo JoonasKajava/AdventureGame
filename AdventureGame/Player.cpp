@@ -85,21 +85,34 @@ void Player::OnSingleMouseClick(sf::Event e)
 
 void Player::StartConversation(NPC * npc)
 {
+	Animator centerer;
+	sf::Vector2f npcpos = npc->Body.getPosition();
+	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y,npcpos.x + 32 / 2, npcpos.y + 32 / 2, 500);
+	GameContext::instance->mainView.setCenter(npc->Body.getPosition());
 	Speaking = true;
 	npc->Speaking = true;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Chat);
 	npc->Speak();
 	this->conversationWith = npc;
 	Animator a; 
-	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float,float)>(&sf::View::setSize), 500, 350, 143, 100, 500);
+	sf::Vector2f size = GameContext::instance->mainView.getSize();
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float,float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
 }
 
 void Player::EndConversation()
 {
-	this->Speaking = false;
-	conversationWith->Speaking = false;
-	conversationWith = NULL;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
 	Animator a;
-	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), 143, 100, 500, 350, 500);
+	sf::Vector2f size = GameContext::instance->mainView.getSize();
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x / ConversationZoom, size.y / ConversationZoom, 500);
+
+	Animator centerer;
+	sf::Vector2f playerpos = this->Body.getPosition();
+	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, playerpos.x + 32 / 2, playerpos.y + 32 / 2, 500, [] {
+		GameContext::instance->MainPlayer->Speaking = false;
+	});
+	conversationWith->Speaking = false;
+	conversationWith = NULL;
 }

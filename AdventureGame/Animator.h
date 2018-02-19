@@ -20,7 +20,7 @@ public:
 	template <class Instance, class Value>
 	void AnimateValue(Instance* instance, void (Instance::*function)(Value), Value from, Value to, int milliseconds);
 	template <class Instance, class Value>
-	void AnimateValue(Instance* instance, void (Instance::*function)(Value, Value), Value from, Value from2, Value to, Value to2, int milliseconds);
+	void AnimateValue(Instance* instance, void (Instance::*function)(Value, Value), Value from, Value from2, Value to, Value to2, int milliseconds, std::function<void()>&& CallBack = NULL);
 
 };
 
@@ -50,9 +50,9 @@ inline void Animator::AnimateValue(Instance* instance, void(Instance::*function)
 }
 
 template<class Instance, class Value>
-inline void Animator::AnimateValue(Instance * instance, void(Instance::* function)(Value, Value), Value from, Value from2, Value to, Value to2, int milliseconds)
+inline void Animator::AnimateValue(Instance * instance, void(Instance::* function)(Value, Value), Value from, Value from2, Value to, Value to2, int milliseconds, std::function<void()>&& CallBack)
 {
-	std::thread([instance, function, from, from2, to, to2, milliseconds]() {
+	std::thread([instance, function, from, from2, to, to2, milliseconds, CallBack]() {
 		sf::Clock Timer;
 		Value newvalue = from;
 		Value newvalue2 = from2;
@@ -76,6 +76,9 @@ inline void Animator::AnimateValue(Instance * instance, void(Instance::* functio
 			}
 			lastelapsed = elapsed;
 			(instance->*function)(newvalue, newvalue2);
+		}
+		if (CallBack != NULL) {
+			CallBack();
 		}
 	}).detach();
 }

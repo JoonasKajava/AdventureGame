@@ -20,7 +20,8 @@ GameContext::GameContext(Map& map) : environment( map)
 	this->window.create(sf::VideoMode(1000, 900), "Adventure Game");
 
 	this->window.setKeyRepeatEnabled(true);
-	this->mainView.setCenter(this->MainPlayer->Body.getPosition());
+	sf::Vector2f playerpos = this->MainPlayer->Body.getPosition();
+	this->mainView.setCenter(playerpos.x + 32 / 2, playerpos.y + 32 / 2);
 	this->mainView.setSize(sf::Vector2f(500, 350));
 	//this->mainView.zoom(0.5f);
 	this->mainView.setViewport(sf::FloatRect(0, 0, 1, 0.7f));
