@@ -20,7 +20,7 @@ void GameInfoPanel::AddText(std::string Message)
 void GameInfoPanel::AddText(std::string Message, std::string From)
 {
 	this->CurrentInfo->push_back(From + " > " + Message);
-	int maxSize = Buttons.size() > 0 ? 5 : 6;
+	int maxSize = Buttons.size() > 0 || state != World ? 5 : 6;
 
 	if (this->CurrentInfo->size() > maxSize) {
 		this->CurrentInfo->erase(this->CurrentInfo->begin());

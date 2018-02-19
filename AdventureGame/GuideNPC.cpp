@@ -51,10 +51,7 @@ void GuideNPC::Speak(int newStage) {
 		GameContext::instance->gameInfoPanel.AddText("As they get protected by the dragon living in the lavazone", Name);
 		break;
 	case 3:
-		this->Speaking = false;
-		GameContext::instance->MainPlayer->Speaking = false;
-		GameContext::instance->MainPlayer->conversationWith = NULL;
-		GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+		GameContext::instance->MainPlayer->EndConversation();
 		this->ConversationStage = 4;
 		break;
 

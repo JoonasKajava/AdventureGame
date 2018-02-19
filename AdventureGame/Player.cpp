@@ -81,3 +81,20 @@ void Player::OnSingleMouseClick(sf::Event e)
 		}
 	}
 }
+
+void Player::StartConversation(NPC * npc)
+{
+	Speaking = true;
+	npc->Speaking = true;
+	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Chat);
+	npc->Speak();
+	this->conversationWith = npc;
+}
+
+void Player::EndConversation()
+{
+	this->Speaking = false;
+	conversationWith->Speaking = false;
+	conversationWith = NULL;
+	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+}

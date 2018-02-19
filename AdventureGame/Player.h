@@ -19,5 +19,9 @@ public:
 
 	void OnSingleMouseClick(sf::Event e);
 
+	void StartConversation(NPC* npc);
+
+	void EndConversation();
+
 };
 
