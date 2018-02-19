@@ -4,6 +4,7 @@
 #include "GameContext.h"
 #include "Character.h"
 #include <iostream>
+#include "Animator.h"
 
 Player::Player(bool AddToDrawQueue) : Character(AddToDrawQueue)
 {
@@ -89,6 +90,8 @@ void Player::StartConversation(NPC * npc)
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Chat);
 	npc->Speak();
 	this->conversationWith = npc;
+	Animator a; 
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float,float)>(&sf::View::setSize), 500, 350, 143, 100, 500);
 }
 
 void Player::EndConversation()
@@ -97,4 +100,6 @@ void Player::EndConversation()
 	conversationWith->Speaking = false;
 	conversationWith = NULL;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+	Animator a;
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), 143, 100, 500, 350, 500);
 }
