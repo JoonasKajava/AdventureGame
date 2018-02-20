@@ -3,6 +3,7 @@
 
 #include "Character.h"
 #include "NPC.h"
+#include "Enemy.h"
 
 class Character;
 
@@ -18,6 +19,8 @@ public:
 	NPC* conversationWith;
 
 	void OnSingleMouseClick(sf::Event e);
+
+	void StartFight(Enemy* enemy);
 
 	void StartConversation(NPC* npc);
 

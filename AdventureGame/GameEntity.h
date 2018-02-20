@@ -2,18 +2,18 @@
 
 #include <SFML\Graphics.hpp>
 
-class GameEntity : public sf::Drawable
+class GameEntity
 {
+
 public:
-	GameEntity(bool AddToDrawQueue = true);
-	~GameEntity();
+	GameEntity();
+	virtual ~GameEntity();
 
 	sf::Sprite Body;
 
 	// Entity Attributes
 	std::string Name;
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	static GameEntity* IsColliding(sf::FloatRect rect);
 
 };
-

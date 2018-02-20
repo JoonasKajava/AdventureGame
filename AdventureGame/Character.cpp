@@ -8,8 +8,9 @@
 #include <iostream>
 #include <algorithm>
 #include <math.h>
+#include "Animator.h"
 
-Character::Character(bool AddToDrawQueue) : GameEntity(AddToDrawQueue)
+Character::Character(bool AddToDrawQueue) : GameEntity()
 {
 
 }
@@ -20,13 +21,11 @@ Character::~Character()
 
 bool Character::Move(Direction direction)
 {
+	if (Speaking || InBattle) return false;
 	sf::Vector2f position = Body.getPosition();
 
 	position.x = position.x / 32;
 	position.y = position.y / 32;
-
-
-	const std::vector<sf::Vector2i>& blockedtiles = GameContext::instance->environment.map.blockedtiles;
 
 	sf::Vector2i RightTile = sf::Vector2i(position.x + 1, position.y);
 	sf::Vector2i LeftTile = sf::Vector2i(position.x - 1, position.y);
@@ -52,13 +51,17 @@ bool Character::Move(Direction direction)
 	}
 	Bounds.width = 31;
 	Bounds.height = 31;
-	for (const sf::Vector2i& tile : blockedtiles) {
-		if (Bounds.intersects(sf::FloatRect(tile.x * 32, tile.y * 32, 32, 32))) {
-			return false;
+
+	GameEntity* collider = GameEntity::IsColliding(Bounds);
+	
+	if (collider != NULL) {
+		Player* player = dynamic_cast<Player*>(this);
+		Enemy* enemy = dynamic_cast<Enemy*>(collider);
+		if (player != nullptr && enemy != nullptr) {
+
+			player->StartFight(enemy);
 		}
-	}
-	for (const NPC* npc : GameContext::instance->NPCs) {
-		if (npc->Body.getGlobalBounds().intersects(Bounds)) return false;
+		return false;
 	}
 
 	switch (direction)
@@ -84,4 +87,9 @@ bool Character::Move(Direction direction)
 	}
 
 	return false;
+}
+
+void Character::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+	target.draw(Body);
 }

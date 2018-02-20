@@ -8,6 +8,7 @@
 #include "Environment.h"
 #include "GameInfoPanel.h"
 #include "NPC.h"
+#include "Enemy.h"
 #include <thread>
 
 class GameContext
@@ -30,6 +31,7 @@ public:
 	Player* MainPlayer;
 
 	std::vector<NPC*> NPCs;
+	std::vector<Enemy*> Enemies;
 
 	static GameContext* CreateInstace();
 	static GameContext* instance;

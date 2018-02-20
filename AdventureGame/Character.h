@@ -4,13 +4,14 @@
 
 
 class Character :
-	public GameEntity
+	public GameEntity, public sf::Drawable
 {
 public:
 	Character(bool AddToDrawQueue = true);
 	~Character();
 
 	bool Speaking;
+	bool InBattle;
 
 	double MovementSpeed;
 
@@ -32,5 +33,6 @@ public:
 
 	bool Move(Direction direction);
 
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 

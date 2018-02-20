@@ -7,16 +7,27 @@
 using namespace sf;
 
 
-GameEntity::GameEntity(bool AddToDrawQueue) 
+GameEntity::GameEntity() 
 {
-	if(AddToDrawQueue)GameContext::instance->DrawQueue.push_back(this);
+
 }
 
 GameEntity::~GameEntity()
 {
 }
 
-void GameEntity::draw(RenderTarget & target, RenderStates states) const
+GameEntity* GameEntity::IsColliding(sf::FloatRect rect)
 {
-	target.draw(Body);
+
+	for ( NPC* npc : GameContext::instance->NPCs) {
+		if (npc->Body.getGlobalBounds().intersects(rect)) return npc;
+	}
+
+	for (Enemy* enemy : GameContext::instance->Enemies) {
+		if (enemy->Body.getGlobalBounds().intersects(rect)) return enemy;
+	}
+	for (Map::Tile* tile : GameContext::instance->environment.map.blockedtiles) {
+		if (rect.intersects(sf::FloatRect(tile->pos.x * 32, tile->pos.y * 32, 32, 32))) return tile;
+	}
+	return NULL;
 }

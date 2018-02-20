@@ -40,7 +40,9 @@ Map::Map()
 
 						for (const auto& property : tileproperties) {
 							if (property.getName() == "block" && property.getBoolValue()) {
-								blockedtiles.push_back(sf::Vector2i(x, y));
+								Tile* t = new Tile;
+								t->pos = sf::Vector2f(x, y);
+								blockedtiles.push_back(t);
 							}
 						}
 					}

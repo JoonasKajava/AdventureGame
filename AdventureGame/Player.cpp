@@ -83,6 +83,22 @@ void Player::OnSingleMouseClick(sf::Event e)
 	}
 }
 
+void Player::StartFight(Enemy * enemy)
+{
+	Animator centerer;
+	sf::Vector2f enemypos = enemy->Body.getPosition();
+	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, enemypos.x + 32 / 2, enemypos.y + 32 / 2, 500);
+	GameContext::instance->mainView.setCenter(enemy->Body.getPosition());
+	InBattle = true;
+	enemy->InBattle = true;
+	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Battle);
+
+	Animator a;
+	sf::Vector2f size = GameContext::instance->mainView.getSize();
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
+}
+
 void Player::StartConversation(NPC * npc)
 {
 	Animator centerer;
