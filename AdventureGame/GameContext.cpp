@@ -11,6 +11,7 @@ GameContext * GameContext::CreateInstace()
 		Map* gamemap = new Map();
 		instance = new GameContext(*gamemap);
 	}
+	
 	return instance;
 }
 
@@ -33,6 +34,7 @@ GameContext::GameContext(Map& map) : environment( map)
 	gameInfoPanel.AddText("They might know secrets about these lands");
 
 	this->window.setView(mainView);
+
 }
 
 

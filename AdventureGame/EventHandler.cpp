@@ -15,7 +15,11 @@ EventHandler::~EventHandler()
 
 void EventHandler::PollEvents() {
 
+
+
 	GameContext::instance->MainPlayer->HandleInput();
+
+
 	while (GameContext::instance->window.pollEvent(this->event))
 	{
 		switch (this->event.type)

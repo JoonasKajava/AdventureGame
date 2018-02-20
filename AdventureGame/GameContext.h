@@ -8,6 +8,7 @@
 #include "Environment.h"
 #include "GameInfoPanel.h"
 #include "NPC.h"
+#include <thread>
 
 class GameContext
 {

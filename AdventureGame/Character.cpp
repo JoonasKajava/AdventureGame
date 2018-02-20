@@ -57,6 +57,9 @@ bool Character::Move(Direction direction)
 			return false;
 		}
 	}
+	for (const NPC* npc : GameContext::instance->NPCs) {
+		if (npc->Body.getGlobalBounds().intersects(Bounds)) return false;
+	}
 
 	switch (direction)
 	{
