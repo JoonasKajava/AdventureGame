@@ -7,11 +7,13 @@ class Character :
 	public GameEntity, public sf::Drawable
 {
 public:
-	Character(bool AddToDrawQueue = true);
+	Character();
 	~Character();
 
 	bool Speaking;
 	bool InBattle;
+	bool Alive = true;
+
 
 	double MovementSpeed;
 
@@ -30,6 +32,26 @@ public:
 		Down,
 		Left
 	};
+
+	enum AttackType {
+		Stab,
+		Slash,
+		Swing
+	};
+
+	std::string AttackNames[3] = {
+		"Stab",
+		"Slash",
+		"Swing"
+	};
+
+	static sf::Texture* deadTexture;
+
+	int AttackCharacter(AttackType type, Character* target);
+
+	void Die();
+
+	int TakeDamage(int damage);
 
 	bool Move(Direction direction);
 

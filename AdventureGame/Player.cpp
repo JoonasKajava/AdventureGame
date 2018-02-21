@@ -6,8 +6,11 @@
 #include <iostream>
 #include "Animator.h"
 
-Player::Player(bool AddToDrawQueue) : Character(AddToDrawQueue)
+Player::Player() : Character()
 {
+
+	Attack = 1;
+
 	MovementSpeed = 0.0001;
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
@@ -22,19 +25,18 @@ Player::~Player()
 
 void Player::HandleInput()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !Speaking) {
-		if (GameContext::instance->MainPlayer->Move(Direction::Right))
-			GameContext::instance->mainView.move(GameContext::instance->deltaTime * MovementSpeed, 0);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !Speaking) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (GameContext::instance->MainPlayer->Move(Direction::Right)) GameContext::instance->mainView.move(GameContext::instance->deltaTime * MovementSpeed, 0);
+	}else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		if (GameContext::instance->MainPlayer->Move(Direction::Left))
 			GameContext::instance->mainView.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !Speaking) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		if (GameContext::instance->MainPlayer->Move(Direction::Down))
 			GameContext::instance->mainView.move(0, GameContext::instance->deltaTime * MovementSpeed);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !Speaking) {
+	}else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ) {
 		if (GameContext::instance->MainPlayer->Move(Direction::Up))
 			GameContext::instance->mainView.move(0, -GameContext::instance->deltaTime * MovementSpeed);
 	}
@@ -51,6 +53,20 @@ void Player::OnSingleMouseClick(sf::Event e)
 		for (std::pair<int, Button*> b : GameContext::instance->gameInfoPanel.Buttons) {
 			if (b.second->box.getGlobalBounds().contains(pos.x, pos.y)) {
 				if (GameContext::instance->MainPlayer->conversationWith != NULL)GameContext::instance->MainPlayer->conversationWith->Speak(b.first);
+				break;
+			}
+		}
+	}
+
+	if (e.mouseButton.button == sf::Mouse::Button::Left && InBattle && GameContext::instance->gameInfoPanel.Buttons.size() > 0) {
+		sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
+		for (std::pair<int, Button*> b : GameContext::instance->gameInfoPanel.Buttons) {
+			if (b.second->box.getGlobalBounds().contains(pos.x, pos.y)) {
+				if (GameContext::instance->MainPlayer->fightingWith != NULL && b.first != 100) {
+					int damage = GameContext::instance->MainPlayer->AttackCharacter((AttackType)b.first, GameContext::instance->MainPlayer->fightingWith);
+					GameContext::instance->gameInfoPanel.AddText("You tried to " + AttackNames[b.first] + " and it " + (damage > 0 ? ("dealt " + std::to_string(damage) + " damage") : "missed"));
+				}
+				if (!fightingWith->Alive) EndFight();
 				break;
 			}
 		}
@@ -92,11 +108,39 @@ void Player::StartFight(Enemy * enemy)
 	GameContext::instance->mainView.setCenter(enemy->Body.getPosition());
 	InBattle = true;
 	enemy->InBattle = true;
+	fightingWith = enemy;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Battle);
 
 	Animator a;
 	sf::Vector2f size = GameContext::instance->mainView.getSize();
 	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
+
+
+	GameContext::instance->gameInfoPanel.AddText("You encountered " + enemy->Name);
+
+	GameContext::instance->gameInfoPanel.AddButton("Swing", Swing);
+	GameContext::instance->gameInfoPanel.AddButton("Stab", Stab);
+	GameContext::instance->gameInfoPanel.AddButton("Slash", Slash);
+	GameContext::instance->gameInfoPanel.AddButton("Escape", 100);
+
+	
+}
+
+void Player::EndFight()
+{
+	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+	Animator a;
+	sf::Vector2f size = GameContext::instance->mainView.getSize();
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x / ConversationZoom, size.y / ConversationZoom, 500);
+
+	Animator centerer;
+	sf::Vector2f playerpos = this->Body.getPosition();
+	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, playerpos.x + 32 / 2, playerpos.y + 32 / 2, 500, [] {
+		GameContext::instance->MainPlayer->InBattle = false;
+	});
+	fightingWith->InBattle = false;
+	fightingWith = NULL;
 }
 
 void Player::StartConversation(NPC * npc)

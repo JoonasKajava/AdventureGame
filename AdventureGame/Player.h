@@ -11,20 +11,25 @@ class Character;
 class Player : public  Character
 {
 public:
-	Player(bool AddToDrawQueue = true);
+	Player();
 	~Player();
 
 	void HandleInput();
 
 	NPC* conversationWith;
 
+	Character* fightingWith;
+
 	void OnSingleMouseClick(sf::Event e);
 
 	void StartFight(Enemy* enemy);
 
+	void EndFight();
+
 	void StartConversation(NPC* npc);
 
 	void EndConversation();
+
 private:
 	float ConversationZoom = 0.3f;
 };

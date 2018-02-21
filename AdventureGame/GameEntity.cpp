@@ -16,6 +16,8 @@ GameEntity::~GameEntity()
 {
 }
 
+
+// Still bit heavy, drops fps to 600 when just moving
 GameEntity* GameEntity::IsColliding(sf::FloatRect rect)
 {
 
@@ -24,7 +26,7 @@ GameEntity* GameEntity::IsColliding(sf::FloatRect rect)
 	}
 
 	for (Enemy* enemy : GameContext::instance->Enemies) {
-		if (enemy->Body.getGlobalBounds().intersects(rect)) return enemy;
+		if (enemy->Body.getGlobalBounds().intersects(rect) && enemy->Alive) return enemy;
 	}
 	for (Map::Tile* tile : GameContext::instance->environment.map.blockedtiles) {
 		if (rect.intersects(sf::FloatRect(tile->pos.x * 32, tile->pos.y * 32, 32, 32))) return tile;

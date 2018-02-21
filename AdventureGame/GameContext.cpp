@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "GameContext.h"
+#include "Character.h"
 #include <SFML\Graphics.hpp>
 
 
@@ -17,7 +18,7 @@ GameContext * GameContext::CreateInstace()
 
 GameContext::GameContext(Map& map) : environment( map)
 {
-	this->MainPlayer = new Player(false);
+	this->MainPlayer = new Player();
 	this->window.create(sf::VideoMode(1000, 900), "Adventure Game");
 
 	this->window.setKeyRepeatEnabled(true);

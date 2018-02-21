@@ -53,7 +53,6 @@ Map::Map()
 				if (tileNumber < 0) continue;
 				int tileXinTexture = tileNumber % (TerrainTexture.getSize().x / 32);
 				int tileYinTexture = tileNumber / (TerrainTexture.getSize().x / 32);
-				int test = width * height * 4 * count;
 
 				sf::Vertex* quad = &verticles[(width * height * 4 * count) + (x + y * width) * 4];
 
