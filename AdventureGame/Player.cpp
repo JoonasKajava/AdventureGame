@@ -6,10 +6,17 @@
 #include <iostream>
 #include "Animator.h"
 
+#include <thread>
+#include <chrono>
+
 Player::Player() : Character()
 {
 
-	Attack = 1;
+	Attack = 4;
+	Defence = 2;
+	Health = 10;
+	MaxHealth = 10;
+
 
 	MovementSpeed = 0.0002;
 	sf::Texture* playerTexture = new sf::Texture();
@@ -65,6 +72,13 @@ void Player::OnSingleMouseClick(sf::Event e)
 				if (GameContext::instance->MainPlayer->fightingWith != NULL && b.first != 100) {
 					int damage = GameContext::instance->MainPlayer->AttackCharacter((AttackType)b.first, GameContext::instance->MainPlayer->fightingWith);
 					GameContext::instance->gameInfoPanel.AddText("You tried to " + AttackNames[b.first] + " and it " + (damage > 0 ? ("dealt " + std::to_string(damage) + " damage") : "missed"));
+
+					int attack = rand() % 2;
+
+
+					int tookdamage = GameContext::instance->MainPlayer->fightingWith->AttackCharacter((AttackType)attack, GameContext::instance->MainPlayer);
+
+					GameContext::instance->gameInfoPanel.AddText(GameContext::instance->MainPlayer->fightingWith->Name + " tried to " + AttackNames[attack] + " and it " + (tookdamage > 0 ? ("dealt " + std::to_string(tookdamage) + " damage") : "missed"));
 				}
 				if (!fightingWith->Alive) EndFight();
 				break;
@@ -110,6 +124,7 @@ void Player::StartFight(Enemy * enemy)
 	enemy->InBattle = true;
 	fightingWith = enemy;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Battle);
+	GameContext::instance->gameInfoPanel.UpdateEnemyInfo();
 
 	Animator a;
 	sf::Vector2f size = GameContext::instance->mainView.getSize();
@@ -175,4 +190,11 @@ void Player::EndConversation()
 	});
 	conversationWith->Speaking = false;
 	conversationWith = NULL;
+}
+
+int Player::TakeDamage(int damage)
+{
+	int d = Character::TakeDamage(damage);
+	GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
+	return d;
 }

@@ -13,6 +13,12 @@ class GameInfoPanel : public sf::Drawable
 
 	std::vector<std::string>* CurrentInfo;
 
+	sf::Text PlayerInfo;
+	std::string PlayerInfoFormat = "Health: %d/%d\nAttack: %d";
+
+	sf::Text EnemyInfo;
+	std::string EnemyInfoFormat = "Health: %d/%d\nAttack: %d";
+
 
 public:
 	sf::Font ChatFont;
@@ -32,6 +38,12 @@ public:
 
 	void AddText(std::string Message);
 	void AddText(std::string Message, std::string From);
+
+	void Initialize();
+
+	void UpdatePlayerInfo();
+
+	void UpdateEnemyInfo();
 
 	void AddButton(std::string Text, int id);
 	void ClearButtons();

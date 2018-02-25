@@ -27,6 +27,13 @@ void Enemy::SpawnEnemies(int maxEnemies)
 	}
 }
 
+int Enemy::TakeDamage(int damage)
+{
+	int d = Character::TakeDamage(damage);
+	GameContext::instance->gameInfoPanel.UpdateEnemyInfo();
+	return d;
+}
+
 Enemy::Enemy()
 {
 	Name = names[rand() % names->length()];

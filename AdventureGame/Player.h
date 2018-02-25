@@ -30,6 +30,8 @@ public:
 
 	void EndConversation();
 
+	int TakeDamage(int damage) override;
+
 private:
 	float ConversationZoom = 0.3f;
 };

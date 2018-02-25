@@ -51,7 +51,7 @@ public:
 
 	void Die();
 
-	int TakeDamage(int damage);
+	int virtual TakeDamage(int damage);
 
 	bool Move(Direction direction);
 

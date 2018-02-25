@@ -6,6 +6,11 @@
 GameInfoPanel::GameInfoPanel()
 {
 	ChatFont.loadFromFile("Fonts/wcp.ttf");
+	PlayerInfo.setFont(ChatFont);
+	EnemyInfo.setFont(ChatFont);
+
+	EnemyInfo.setOutlineColor(sf::Color::Black);
+	EnemyInfo.setOutlineThickness(2);
 }
 
 GameInfoPanel::~GameInfoPanel()
@@ -28,6 +33,28 @@ void GameInfoPanel::AddText(std::string Message, std::string From)
 
 }
 
+void GameInfoPanel::Initialize()
+{
+	sf::FloatRect bounds = PlayerInfo.getGlobalBounds();
+	sf::Vector2u windowsize = GameContext::instance->window.getSize();
+	PlayerInfo.setPosition(windowsize.x - (bounds.width + 100), windowsize.y - (bounds.height + 30));
+}
+
+void GameInfoPanel::UpdatePlayerInfo()
+{
+	char buffer[400];
+	snprintf(buffer, sizeof(buffer), PlayerInfoFormat.c_str(), GameContext::instance->MainPlayer->Health, GameContext::instance->MainPlayer->MaxHealth, GameContext::instance->MainPlayer->Attack);
+	PlayerInfo.setString(buffer);
+}
+
+void GameInfoPanel::UpdateEnemyInfo()
+{
+	char buffer[400];
+	snprintf(buffer, sizeof(buffer), EnemyInfoFormat.c_str(), GameContext::instance->MainPlayer->fightingWith->Health, GameContext::instance->MainPlayer->fightingWith->MaxHealth, GameContext::instance->MainPlayer->fightingWith->Attack);
+	EnemyInfo.setString(buffer);
+}
+
+
 void GameInfoPanel::AddButton(std::string Text, int id)
 {
 	Buttons[id] = new Button(Text, ChatFont);
@@ -45,14 +72,22 @@ void GameInfoPanel::ClearButtons()
 void GameInfoPanel::SetState(State s)
 {
 	std::vector<std::string>* buffer;
-	state = s;
 	ClearButtons();
+	state = s;
 	switch (s)
 	{
-	case GameInfoPanel::Battle:
+	case GameInfoPanel::Battle: 
+	{
+
 		BattleInfo.clear();
 		buffer = &BattleInfo;
-		break;
+		sf::Vector2u windowsize = GameContext::instance->window.getSize();
+
+		sf::Vector2f pos = sf::Vector2f(windowsize.x / 2 - 90, windowsize.y / 2 - 70);
+		EnemyInfo.setPosition(pos);
+	}
+		
+	break;
 	case GameInfoPanel::Chat:
 		ChatInfo.clear();
 		buffer = &ChatInfo;
@@ -85,5 +120,8 @@ void GameInfoPanel::draw(sf::RenderTarget & target, sf::RenderStates states) con
 	for (std::pair<int, Button*> b : Buttons) {
 		target.draw(*b.second);
 	}
+	target.draw(PlayerInfo);
 
+	if(state == Battle)
+	target.draw(EnemyInfo);
 }

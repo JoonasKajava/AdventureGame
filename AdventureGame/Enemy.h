@@ -32,6 +32,8 @@ public:
 
 	static void SpawnEnemies(int maxEnemies);
 
+	int TakeDamage(int damage) override;
+
 	Enemy();
 	~Enemy();
 };
