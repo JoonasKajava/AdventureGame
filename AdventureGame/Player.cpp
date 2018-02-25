@@ -11,7 +11,7 @@ Player::Player() : Character()
 
 	Attack = 1;
 
-	MovementSpeed = 0.0001;
+	MovementSpeed = 0.0002;
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
 	Body = sf::Sprite(*playerTexture);
