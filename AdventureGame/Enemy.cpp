@@ -43,7 +43,7 @@ Enemy::Enemy()
 	this->Health = tempHealth;
 	this->MaxHealth = tempHealth;
 
-	Attack = rand() % 4 + 2;
+	Attack = rand() % 2 + 1;
 	Defence = rand() % 2 + 1;
 	Speed = rand() % 2 + 1;
 	Luck = rand() % 30 + 5;

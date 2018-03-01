@@ -50,9 +50,7 @@ public:
 
 	void SetState(State s);
 
-	void OnItemDrop();
-
-	void OnItemUse();
+	void RecalculateInventory();
 
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

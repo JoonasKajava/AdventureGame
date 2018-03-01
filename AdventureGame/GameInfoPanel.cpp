@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameContext.h"
 #include "GameInfoPanel.h"
+#include <math.h>
 
 
 GameInfoPanel::GameInfoPanel()
@@ -103,6 +104,17 @@ void GameInfoPanel::SetState(State s)
 
 }
 
+void GameInfoPanel::RecalculateInventory()
+{
+	std::vector<Item*> items = GameContext::instance->MainPlayer->Inventory;
+	for (int i = 0; i < items.size(); i++) {
+		int offset = i % 4;
+		int row = floor(i / 4);
+		items[i]->Body.setPosition(GameContext::instance->window.getSize().x - 300 + 64 * offset, GameContext::instance->window.getSize().y * 0.7 + 10 + (64 * row));
+		items[i]->Body.setScale(sf::Vector2f(2, 2));
+	}
+}
+
 void GameInfoPanel::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 
@@ -124,4 +136,10 @@ void GameInfoPanel::draw(sf::RenderTarget & target, sf::RenderStates states) con
 
 	if(state == Battle)
 	target.draw(EnemyInfo);
+
+	std::vector<Item*> items = GameContext::instance->MainPlayer->Inventory;
+
+	for (int i = 0; i < items.size(); i++) {
+		target.draw(*items[i]);
+	}
 }

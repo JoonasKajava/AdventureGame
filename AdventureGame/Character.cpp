@@ -69,7 +69,7 @@ void Character::Die()
 
 int Character::TakeDamage(int damage)
 {
-	Health -= damage - Defence;
+	Health -= (damage - Defence) < 0 ? 0 : (damage - Defence);
 	if (Health <= 0) Die();
 	return damage - Defence;
 }

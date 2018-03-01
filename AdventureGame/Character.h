@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameEntity.h"
+#include "Item.h"
 
 
 class Character :
@@ -44,6 +45,8 @@ public:
 		"Slash",
 		"Swing"
 	};
+
+	std::vector<Item*> Inventory;
 
 	static sf::Texture* deadTexture;
 

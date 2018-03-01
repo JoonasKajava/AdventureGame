@@ -110,6 +110,29 @@ void Player::OnSingleMouseClick(sf::Event e)
 			}
 
 		}
+		sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
+		for (Item* item : GameContext::instance->MainPlayer->Inventory) {
+
+			sf::FloatRect hitbox = item->Body.getGlobalBounds();
+			if (hitbox.contains(pos.x, pos.y)) {
+				return item->OnClick();
+			}
+		}
+
+	}
+	else if (e.mouseButton.button == sf::Mouse::Button::Right) {
+		sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
+		for (int i = 0; i < GameContext::instance->MainPlayer->Inventory.size(); i++) {
+			sf::FloatRect hitbox = GameContext::instance->MainPlayer->Inventory[i]->Body.getGlobalBounds();
+			if (hitbox.contains(pos.x, pos.y)) {
+				GameContext::instance->MainPlayer->Inventory[i]->Body.setPosition(GameContext::instance->MainPlayer->Body.getPosition());
+				GameContext::instance->MainPlayer->Inventory[i]->Body.setScale(1,1);
+				GameContext::instance->GroundItems.push_back(GameContext::instance->MainPlayer->Inventory[i]);
+
+				GameContext::instance->MainPlayer->Inventory.erase(GameContext::instance->MainPlayer->Inventory.begin() + i);
+				GameContext::instance->gameInfoPanel.RecalculateInventory();
+			}
+		}
 	}
 }
 

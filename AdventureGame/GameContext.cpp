@@ -34,6 +34,18 @@ GameContext::GameContext(Map& map) : environment( map)
 	gameInfoPanel.AddText("Explore the land and speak with the villagers");
 	gameInfoPanel.AddText("They might know secrets about these lands");
 
+	MainPlayer->Inventory.push_back(new Item(Item::Sword, false));
+	MainPlayer->Inventory.push_back(new Item(Item::Shovel, false));
+	MainPlayer->Inventory.push_back(new Item(Item::RedStone, false));
+
+	MainPlayer->Inventory.push_back(new Item(Item::Coins, false));
+	MainPlayer->Inventory.push_back(new Item(Item::HealingStone, false));
+	MainPlayer->Inventory.push_back(new Item(Item::PurpleStone, false));
+
+	MainPlayer->Inventory.push_back(new Item(Item::Coins, false));
+	MainPlayer->Inventory.push_back(new Item(Item::HealingStone, false));
+	MainPlayer->Inventory.push_back(new Item(Item::PurpleStone, false));
+
 	this->window.setView(mainView);
 }
 

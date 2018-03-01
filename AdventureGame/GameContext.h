@@ -25,13 +25,12 @@ public:
 	GameInfoPanel gameInfoPanel;
 
 
-	std::vector<sf::Drawable*> DrawQueue;
-
-
 	Player* MainPlayer;
 
 	std::vector<NPC*> NPCs;
 	std::vector<Enemy*> Enemies;
+
+	std::vector<Item*> GroundItems;
 
 	static GameContext* CreateInstace();
 	static GameContext* instance;

@@ -6,7 +6,7 @@
 
 Button::Button(std::string Text, sf::Font& font)
 {
-
+	
 	sf::Text buttonText(Text, font);
 
 	sf::FloatRect bounds = buttonText.getGlobalBounds();
