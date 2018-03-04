@@ -14,11 +14,13 @@ public:
 	Player();
 	~Player();
 
-	void HandleInput();
+	void virtual OnTick();
 
 	NPC* conversationWith;
 
 	Character* fightingWith;
+
+	sf::Clock RegenerationTimer;
 
 	void OnSingleMouseClick(sf::Event e);
 

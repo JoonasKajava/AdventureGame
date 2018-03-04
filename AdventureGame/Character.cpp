@@ -65,6 +65,13 @@ void Character::Die()
 
 	Body.setTextureRect(sf::IntRect(x * 32, y * 32, 32, 32));
 	Alive = false;
+	for (int i = 0; i < Inventory.size(); i++) {
+		Inventory[i]->OnGround = true;
+		Inventory[i]->Body.setPosition(this->Body.getPosition());
+		GameContext::instance->GroundItems.push_back(Inventory[i]);
+		Inventory.erase(Inventory.begin() + i);
+	}
+
 }
 
 int Character::TakeDamage(int damage)
@@ -72,6 +79,31 @@ int Character::TakeDamage(int damage)
 	Health -= (damage - Defence) < 0 ? 0 : (damage - Defence);
 	if (Health <= 0) Die();
 	return damage - Defence;
+}
+
+void Character::PickupItem(Item* item)
+{
+	item->OnGround = false;
+	bool foundCoins = false;
+	if (item->type == Item::Coins) {
+		GameContext::instance->gameInfoPanel.AddText("You found " + std::to_string(item->Value) + " gold coins!");
+		for (int i = 0; i < Inventory.size(); i++) {
+			if (Inventory[i]->type == Item::Coins) {
+				Inventory[i]->Value += item->Value;
+				foundCoins = true;
+				delete item;
+			}
+		}
+	}
+	else {
+		GameContext::instance->gameInfoPanel.AddText("You found " + item->Name + "!");
+	}
+	if(!foundCoins)
+		Inventory.push_back(item);
+
+
+	int index = std::find(GameContext::instance->GroundItems.begin(), GameContext::instance->GroundItems.end(), item) - GameContext::instance->GroundItems.begin();
+	GameContext::instance->GroundItems.erase(GameContext::instance->GroundItems.begin() + index);
 }
 
 bool Character::Move(Direction direction)
@@ -104,10 +136,21 @@ bool Character::Move(Direction direction)
 	if (collider != NULL) {
 		Player* player = dynamic_cast<Player*>(this);
 		Enemy* enemy = dynamic_cast<Enemy*>(collider);
+		Item* item = dynamic_cast<Item*>(collider);
 		if (player != nullptr && enemy != nullptr) {
 			 player->StartFight(enemy);
+			 return false;
 		}
-		return false;
+		else if (player != nullptr && item != nullptr) {
+			if (item->dropTime.getElapsedTime().asSeconds() > 2) {
+				this->PickupItem(item);
+				GameContext::instance->gameInfoPanel.RecalculateInventory();
+			}
+		}
+		else {
+			return false;
+		}
+
 
 	}
 

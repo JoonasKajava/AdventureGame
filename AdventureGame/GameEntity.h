@@ -16,4 +16,7 @@ public:
 
 	static GameEntity* IsColliding(sf::FloatRect rect);
 
+
+	void virtual OnTick() {};
+
 };

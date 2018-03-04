@@ -15,9 +15,8 @@ EventHandler::~EventHandler()
 
 void EventHandler::PollEvents() {
 
+	for (GameEntity* entity : GameContext::instance->GameEntities) entity->OnTick();
 
-
-	GameContext::instance->MainPlayer->HandleInput();
 
 
 	while (GameContext::instance->window.pollEvent(this->event))

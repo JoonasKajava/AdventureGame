@@ -16,6 +16,7 @@ class GameContext
 public:
 
 	int deltaTime;
+	std::vector<GameEntity*> GameEntities;
 
 	sf::RenderWindow window;
 	sf::View mainView = sf::View(sf::FloatRect(0,50,400,400));
@@ -32,6 +33,10 @@ public:
 
 	std::vector<Item*> GroundItems;
 
+	template<class T>
+	T* AddEntity(T* entity);
+
+
 	static GameContext* CreateInstace();
 	static GameContext* instance;
 private:
@@ -39,3 +44,10 @@ private:
 	GameContext(Map& map);
 	~GameContext();
 };
+
+template<class T>
+inline T * GameContext::AddEntity(T * entity)
+{
+	this->GameEntities.push_back(entity);
+	return entity;
+}

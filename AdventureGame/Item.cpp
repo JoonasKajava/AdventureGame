@@ -3,12 +3,13 @@
 #include "Item.h"
 
 
-Item::Item(ItemType type, bool onground, sf::Vector2f pos)
+Item::Item(ItemType type, bool onground, int value, sf::Vector2f pos)
 {
 	OnGround = onground;
 	sf::Texture* tex = new sf::Texture();
 	Body.setPosition(pos);
-	
+	Value = value;
+
 	this->type = type;
 	switch (type)
 	{
@@ -84,7 +85,7 @@ void Item::OnClick()
 		GameContext::instance->gameInfoPanel.AddText("This stone is really slimy");
 		break;
 	case Item::Coins:
-		GameContext::instance->gameInfoPanel.AddText(Value + " gold coins");
+		GameContext::instance->gameInfoPanel.AddText(std::to_string(Value) + " gold coins");
 		break;
 	default:
 		break;

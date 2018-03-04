@@ -55,6 +55,7 @@ public:
 	void Die();
 
 	int virtual TakeDamage(int damage);
+	void PickupItem(Item* item);
 
 	bool Move(Direction direction);
 

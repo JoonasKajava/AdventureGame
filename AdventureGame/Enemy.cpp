@@ -39,18 +39,19 @@ Enemy::Enemy()
 	Name = names[rand() % names->length()];
 	sf::Texture* CharacterTexture = new sf::Texture();
 
-	int tempHealth = rand() % 13 + 5;
+	int tempHealth = rand() % (13 - 5 + 1) + 5;
 	this->Health = tempHealth;
 	this->MaxHealth = tempHealth;
 
 	Attack = rand() % 2 + 1;
 	Defence = rand() % 2 + 1;
 	Speed = rand() % 2 + 1;
-	Luck = rand() % 30 + 5;
+	Luck = rand() % (30 - 5 + 1) + 5;
 
 
 	int x = rand() % 5 + 0;
 	int y = rand() % 12 + 0;
+	Inventory.push_back(new Item(Item::Coins, false, rand() % 5 + 1));
 
 	CharacterTexture->loadFromFile("Graphics/dg_monster432.png", sf::IntRect(x * 32, y * 32, 32, 32));
 	Body = sf::Sprite(*CharacterTexture);

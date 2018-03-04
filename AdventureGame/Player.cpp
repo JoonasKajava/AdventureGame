@@ -16,13 +16,15 @@ Player::Player() : Character()
 	Defence = 2;
 	Health = 10;
 	MaxHealth = 10;
+	Speed = 10;
+	Luck = 15;
 
 
-	MovementSpeed = 0.0002;
+	MovementSpeed = 0.0001;
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
 	Body = sf::Sprite(*playerTexture);
-
+	Inventory.push_back(new Item(Item::Coins, false, 10));
 	Body.setPosition(128, 128);
 }
 
@@ -30,25 +32,37 @@ Player::~Player()
 {
 }
 
-void Player::HandleInput()
-{
+void Player::OnTick() {
+
+	for (Item* item : Inventory) {
+		if (item->type == Item::HealingStone && RegenerationTimer.getElapsedTime().asSeconds() > 5 && !InBattle) {
+			if (Health < MaxHealth) {
+				Health++;
+				GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
+				RegenerationTimer.restart();
+			}
+			break;
+		}
+	}
+
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (GameContext::instance->MainPlayer->Move(Direction::Right)) GameContext::instance->mainView.move(GameContext::instance->deltaTime * MovementSpeed, 0);
-	}else
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		if (GameContext::instance->MainPlayer->Move(Direction::Left))
-			GameContext::instance->mainView.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
 	}
+	else
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			if (GameContext::instance->MainPlayer->Move(Direction::Left))
+				GameContext::instance->mainView.move(-GameContext::instance->deltaTime * MovementSpeed, 0);
+		}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		if (GameContext::instance->MainPlayer->Move(Direction::Down))
 			GameContext::instance->mainView.move(0, GameContext::instance->deltaTime * MovementSpeed);
-	}else
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ) {
-		if (GameContext::instance->MainPlayer->Move(Direction::Up))
-			GameContext::instance->mainView.move(0, -GameContext::instance->deltaTime * MovementSpeed);
 	}
-
-
+	else
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			if (GameContext::instance->MainPlayer->Move(Direction::Up))
+				GameContext::instance->mainView.move(0, -GameContext::instance->deltaTime * MovementSpeed);
+		}
 
 }
 
@@ -74,11 +88,23 @@ void Player::OnSingleMouseClick(sf::Event e)
 					GameContext::instance->gameInfoPanel.AddText("You tried to " + AttackNames[b.first] + " and it " + (damage > 0 ? ("dealt " + std::to_string(damage) + " damage") : "missed"));
 
 					int attack = rand() % 2;
-
-
 					int tookdamage = GameContext::instance->MainPlayer->fightingWith->AttackCharacter((AttackType)attack, GameContext::instance->MainPlayer);
-
 					GameContext::instance->gameInfoPanel.AddText(GameContext::instance->MainPlayer->fightingWith->Name + " tried to " + AttackNames[attack] + " and it " + (tookdamage > 0 ? ("dealt " + std::to_string(tookdamage) + " damage") : "missed"));
+				}
+				else if (GameContext::instance->MainPlayer->fightingWith != NULL && b.first == 100) {
+					int chancebuff = GameContext::instance->MainPlayer->Luck + GameContext::instance->MainPlayer->Speed;
+					int escape = rand() % (100 - chancebuff + 1) + chancebuff;
+					if (escape > 75) {
+						EndFight();
+						GameContext::instance->gameInfoPanel.AddText("You managed to escape");
+						return;
+					}
+					else {
+						GameContext::instance->gameInfoPanel.AddText("You tried to escape, but enemy was too fast");
+						int attack = rand() % 2;
+						int tookdamage = GameContext::instance->MainPlayer->fightingWith->AttackCharacter((AttackType)attack, GameContext::instance->MainPlayer);
+						GameContext::instance->gameInfoPanel.AddText(GameContext::instance->MainPlayer->fightingWith->Name + " tried to " + AttackNames[attack] + " and it " + (tookdamage > 0 ? ("dealt " + std::to_string(tookdamage) + " damage") : "missed"));
+					}
 				}
 				if (!fightingWith->Alive) EndFight();
 				break;
@@ -128,9 +154,11 @@ void Player::OnSingleMouseClick(sf::Event e)
 				GameContext::instance->MainPlayer->Inventory[i]->Body.setPosition(GameContext::instance->MainPlayer->Body.getPosition());
 				GameContext::instance->MainPlayer->Inventory[i]->Body.setScale(1,1);
 				GameContext::instance->GroundItems.push_back(GameContext::instance->MainPlayer->Inventory[i]);
-
+				GameContext::instance->MainPlayer->Inventory[i]->dropTime.restart();
+				GameContext::instance->gameInfoPanel.AddText("You dropped " + GameContext::instance->MainPlayer->Inventory[i]->Name);
 				GameContext::instance->MainPlayer->Inventory.erase(GameContext::instance->MainPlayer->Inventory.begin() + i);
 				GameContext::instance->gameInfoPanel.RecalculateInventory();
+				
 			}
 		}
 	}
@@ -163,6 +191,7 @@ void Player::StartFight(Enemy * enemy)
 
 	
 }
+
 
 void Player::EndFight()
 {

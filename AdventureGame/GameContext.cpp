@@ -5,7 +5,6 @@
 #include "Character.h"
 #include <SFML\Graphics.hpp>
 
-
 GameContext * GameContext::CreateInstace()
 {
 	if (instance == 0) {
@@ -18,7 +17,7 @@ GameContext * GameContext::CreateInstace()
 
 GameContext::GameContext(Map& map) : environment( map)
 {
-	this->MainPlayer = new Player();
+	this->MainPlayer = AddEntity(new Player());
 	this->window.create(sf::VideoMode(1000, 900), "Adventure Game");
 
 	this->window.setKeyRepeatEnabled(true);
@@ -33,18 +32,6 @@ GameContext::GameContext(Map& map) : environment( map)
 	gameInfoPanel.AddText("You find yourself in land filled with monsters");
 	gameInfoPanel.AddText("Explore the land and speak with the villagers");
 	gameInfoPanel.AddText("They might know secrets about these lands");
-
-	MainPlayer->Inventory.push_back(new Item(Item::Sword, false));
-	MainPlayer->Inventory.push_back(new Item(Item::Shovel, false));
-	MainPlayer->Inventory.push_back(new Item(Item::RedStone, false));
-
-	MainPlayer->Inventory.push_back(new Item(Item::Coins, false));
-	MainPlayer->Inventory.push_back(new Item(Item::HealingStone, false));
-	MainPlayer->Inventory.push_back(new Item(Item::PurpleStone, false));
-
-	MainPlayer->Inventory.push_back(new Item(Item::Coins, false));
-	MainPlayer->Inventory.push_back(new Item(Item::HealingStone, false));
-	MainPlayer->Inventory.push_back(new Item(Item::PurpleStone, false));
 
 	this->window.setView(mainView);
 }

@@ -7,9 +7,8 @@
 using namespace sf;
 
 
-GameEntity::GameEntity() 
+GameEntity::GameEntity()
 {
-
 }
 
 GameEntity::~GameEntity()
@@ -31,6 +30,13 @@ GameEntity* GameEntity::IsColliding(sf::FloatRect rect)
 		if (sqrt(pow(rect.left - tile->pos.x * 32, 2) + pow(rect.top - tile->pos.y * 32, 2)) > 40) continue;
 
 		if (rect.intersects(sf::FloatRect(tile->pos.x * 32, tile->pos.y * 32, 32, 32))) return tile;
+	}
+
+	for (Item* item : GameContext::instance->GroundItems) {
+		sf::Vector2f pos = item->Body.getPosition();
+		if (sqrt(pow(rect.left - pos.x, 2) + pow(rect.top - pos.y, 2)) > 40) continue;
+
+		if (rect.intersects(item->Body.getGlobalBounds())) return item;
 	}
 	return NULL;
 }
