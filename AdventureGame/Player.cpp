@@ -106,7 +106,12 @@ void Player::OnSingleMouseClick(sf::Event e)
 						GameContext::instance->gameInfoPanel.AddText(GameContext::instance->MainPlayer->fightingWith->Name + " tried to " + AttackNames[attack] + " and it " + (tookdamage > 0 ? ("dealt " + std::to_string(tookdamage) + " damage") : "missed"));
 					}
 				}
-				if (!fightingWith->Alive) EndFight();
+				if (!fightingWith->Alive) {
+					this->LevelUp();
+					GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
+					for (Enemy* enemy : GameContext::instance->Enemies) enemy->LevelUp();
+					EndFight();
+				};
 				break;
 			}
 		}

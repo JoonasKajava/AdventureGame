@@ -98,7 +98,7 @@ void Character::PickupItem(Item* item)
 	else {
 		GameContext::instance->gameInfoPanel.AddText("You found " + item->Name + "!");
 	}
-	if(!foundCoins)
+	if (!foundCoins)
 		Inventory.push_back(item);
 
 
@@ -138,8 +138,8 @@ bool Character::Move(Direction direction)
 		Enemy* enemy = dynamic_cast<Enemy*>(collider);
 		Item* item = dynamic_cast<Item*>(collider);
 		if (player != nullptr && enemy != nullptr) {
-			 player->StartFight(enemy);
-			 return false;
+			player->StartFight(enemy);
+			return false;
 		}
 		else if (player != nullptr && item != nullptr) {
 			if (item->dropTime.getElapsedTime().asSeconds() > 2) {
@@ -177,6 +177,19 @@ bool Character::Move(Direction direction)
 	}
 
 	return false;
+}
+
+void Character::LevelUp()
+{
+	int newHealth = rand() % 2;
+	if (Health == MaxHealth) {
+		Health += newHealth;
+	}
+	MaxHealth += newHealth;
+	Luck += rand() % 2;
+	Speed += rand() % 2;
+	Attack += rand() % 2;
+	Defence += rand() % 2;
 }
 
 void Character::draw(sf::RenderTarget & target, sf::RenderStates states) const

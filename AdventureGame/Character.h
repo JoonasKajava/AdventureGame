@@ -59,6 +59,8 @@ public:
 
 	bool Move(Direction direction);
 
+	void LevelUp();
+
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };
 
