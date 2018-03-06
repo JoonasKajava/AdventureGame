@@ -16,15 +16,15 @@ GameEntity::~GameEntity()
 }
 
 
-GameEntity* GameEntity::IsColliding(sf::FloatRect rect)
+GameEntity* GameEntity::IsColliding(sf::FloatRect rect, GameEntity* self)
 {
 
 	for ( NPC* npc : GameContext::instance->NPCs) {
-		if (npc->Body.getGlobalBounds().intersects(rect)) return npc;
+		if (npc->Body.getGlobalBounds().intersects(rect) && npc->Alive) return npc;
 	}
 
 	for (Enemy* enemy : GameContext::instance->Enemies) {
-		if (enemy->Body.getGlobalBounds().intersects(rect) && enemy->Alive) return enemy;
+		if (enemy->Body.getGlobalBounds().intersects(rect) && enemy->Alive && enemy != self) return enemy;
 	}
 	for (Map::Tile* tile : GameContext::instance->environment.map.blockedtiles) {
 		if (sqrt(pow(rect.left - tile->pos.x * 32, 2) + pow(rect.top - tile->pos.y * 32, 2)) > 40) continue;

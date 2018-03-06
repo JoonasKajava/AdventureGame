@@ -74,7 +74,7 @@ void Player::OnSingleMouseClick(sf::Event e)
 		for (std::pair<int, Button*> b : GameContext::instance->gameInfoPanel.Buttons) {
 			if (b.second->box.getGlobalBounds().contains(pos.x, pos.y)) {
 				if (GameContext::instance->MainPlayer->conversationWith != NULL)GameContext::instance->MainPlayer->conversationWith->Speak(b.first);
-				break;
+				return;
 			}
 		}
 	}
@@ -120,7 +120,6 @@ void Player::OnSingleMouseClick(sf::Event e)
 
 	if (e.mouseButton.button == sf::Mouse::Button::Left) {
 
-		
 		for (NPC* npc : GameContext::instance->NPCs) {
 			sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
 			sf::FloatRect hitbox = npc->Body.getGlobalBounds();
@@ -157,35 +156,39 @@ void Player::OnSingleMouseClick(sf::Event e)
 			sf::FloatRect hitbox = GameContext::instance->MainPlayer->Inventory[i]->Body.getGlobalBounds();
 			if (hitbox.contains(pos.x, pos.y)) {
 				GameContext::instance->MainPlayer->Inventory[i]->Body.setPosition(GameContext::instance->MainPlayer->Body.getPosition());
-				GameContext::instance->MainPlayer->Inventory[i]->Body.setScale(1,1);
+				GameContext::instance->MainPlayer->Inventory[i]->Body.setScale(1, 1);
 				GameContext::instance->GroundItems.push_back(GameContext::instance->MainPlayer->Inventory[i]);
 				GameContext::instance->MainPlayer->Inventory[i]->dropTime.restart();
 				GameContext::instance->gameInfoPanel.AddText("You dropped " + GameContext::instance->MainPlayer->Inventory[i]->Name);
 				GameContext::instance->MainPlayer->Inventory.erase(GameContext::instance->MainPlayer->Inventory.begin() + i);
 				GameContext::instance->gameInfoPanel.RecalculateInventory();
-				
+
 			}
 		}
 	}
 }
 
-void Player::StartFight(Enemy * enemy)
+void Player::StartFight(Character * enemy, bool Animate)
 {
-	Animator centerer;
-	sf::Vector2f enemypos = enemy->Body.getPosition();
-	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
-	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, enemypos.x + 32 / 2, enemypos.y + 32 / 2, 500);
-	GameContext::instance->mainView.setCenter(enemy->Body.getPosition());
+	if (Animate) {
+		Animator centerer;
+		sf::Vector2f enemypos = enemy->Body.getPosition();
+		sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+		centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, enemypos.x + 32 / 2, enemypos.y + 32 / 2, 500);
+		GameContext::instance->mainView.setCenter(enemy->Body.getPosition());
+
+		Animator a;
+		sf::Vector2f size = GameContext::instance->mainView.getSize();
+		a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
+	}
+
+
+
 	InBattle = true;
 	enemy->InBattle = true;
 	fightingWith = enemy;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Battle);
 	GameContext::instance->gameInfoPanel.UpdateEnemyInfo();
-
-	Animator a;
-	sf::Vector2f size = GameContext::instance->mainView.getSize();
-	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
-
 
 	GameContext::instance->gameInfoPanel.AddText("You encountered " + enemy->Name);
 
@@ -194,7 +197,7 @@ void Player::StartFight(Enemy * enemy)
 	GameContext::instance->gameInfoPanel.AddButton("Slash", Slash);
 	GameContext::instance->gameInfoPanel.AddButton("Escape", 100);
 
-	
+
 }
 
 
@@ -220,31 +223,38 @@ void Player::StartConversation(NPC * npc)
 	Animator centerer;
 	sf::Vector2f npcpos = npc->Body.getPosition();
 	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
-	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y,npcpos.x + 32 / 2, npcpos.y + 32 / 2, 500);
+	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, npcpos.x + 32 / 2, npcpos.y + 32 / 2, 500);
 	GameContext::instance->mainView.setCenter(npc->Body.getPosition());
 	Speaking = true;
 	npc->Speaking = true;
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::Chat);
 	npc->Speak();
 	this->conversationWith = npc;
-	Animator a; 
-	sf::Vector2f size = GameContext::instance->mainView.getSize();
-	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float,float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
-}
-
-void Player::EndConversation()
-{
-	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
 	Animator a;
 	sf::Vector2f size = GameContext::instance->mainView.getSize();
-	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x / ConversationZoom, size.y / ConversationZoom, 500);
+	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x * ConversationZoom, size.y * ConversationZoom, 500);
+}
 
-	Animator centerer;
-	sf::Vector2f playerpos = this->Body.getPosition();
-	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
-	centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, playerpos.x + 32 / 2, playerpos.y + 32 / 2, 500, [] {
+void Player::EndConversation(bool Animation)
+{
+	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+	if (Animation) {
+
+
+		Animator a;
+		sf::Vector2f size = GameContext::instance->mainView.getSize();
+		a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x / ConversationZoom, size.y / ConversationZoom, 500);
+
+		Animator centerer;
+		sf::Vector2f playerpos = this->Body.getPosition();
+		sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
+		centerer.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setCenter), currentcenter.x, currentcenter.y, playerpos.x + 32 / 2, playerpos.y + 32 / 2, 500, [] {
+			GameContext::instance->MainPlayer->Speaking = false;
+		});
+	}
+	else {
 		GameContext::instance->MainPlayer->Speaking = false;
-	});
+	}
 	conversationWith->Speaking = false;
 	conversationWith = NULL;
 }

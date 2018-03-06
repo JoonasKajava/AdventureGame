@@ -28,11 +28,15 @@ private:
 	};
 	 sf::Vector2f findFreeSpawnSpot();
 
+	 int nextMoveTime = 0;
+
 public:
 
 	static void SpawnEnemies(int maxEnemies);
 
 	int TakeDamage(int damage) override;
+
+	void virtual OnTick();
 
 	Enemy();
 	~Enemy();

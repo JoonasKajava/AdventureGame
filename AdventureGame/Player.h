@@ -24,13 +24,13 @@ public:
 
 	void OnSingleMouseClick(sf::Event e);
 
-	void StartFight(Enemy* enemy);
+	void StartFight(Character* enemy, bool Animate = true);
 
 	void EndFight();
 
 	void StartConversation(NPC* npc);
 
-	void EndConversation();
+	void EndConversation(bool Animation = true);
 
 	int TakeDamage(int damage) override;
 

@@ -81,6 +81,9 @@
     <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IceManNPC.h">
+      <Filter>Header Files\Entities\NPCs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IceManNPC.cpp">
+      <Filter>Source Files\Entities\NPCs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

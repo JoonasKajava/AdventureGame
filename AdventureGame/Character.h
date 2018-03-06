@@ -14,6 +14,9 @@ public:
 	bool Speaking;
 	bool InBattle;
 	bool Alive = true;
+	bool Moving = false;
+
+	sf::Clock LastTimeMoved;
 
 
 	double MovementSpeed;
@@ -59,8 +62,12 @@ public:
 
 	bool Move(Direction direction);
 
+	void TryMoveTo(sf::Vector2f pos);
+
 	void LevelUp();
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	sf::Vector2f MovingTo;
+
 };
 

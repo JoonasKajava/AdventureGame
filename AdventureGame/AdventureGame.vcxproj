@@ -169,6 +169,7 @@
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GuideNPC.h" />
+    <ClInclude Include="IceManNPC.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="NPC.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GuideNPC.cpp" />
+    <ClCompile Include="IceManNPC.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="NPC.cpp" />

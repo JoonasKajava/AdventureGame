@@ -50,7 +50,7 @@ Item::Item(ItemType type, bool onground, int value, sf::Vector2f pos)
 	default:
 		break;
 	}
-	Body = sf::Sprite(*tex);
+	Body.setTexture(*tex);
 
 }
 

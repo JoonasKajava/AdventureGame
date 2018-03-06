@@ -14,7 +14,7 @@ public:
 	// Entity Attributes
 	std::string Name;
 
-	static GameEntity* IsColliding(sf::FloatRect rect);
+	static GameEntity* IsColliding(sf::FloatRect rect, GameEntity* self = NULL);
 
 
 	void virtual OnTick() {};

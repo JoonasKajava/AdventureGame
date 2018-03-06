@@ -23,7 +23,7 @@ void Enemy::SpawnEnemies(int maxEnemies)
 {
 	while (GameContext::instance->Enemies.size() < maxEnemies)
 	{
-		GameContext::instance->Enemies.push_back(new Enemy());
+		GameContext::instance->Enemies.push_back(GameContext::instance->AddEntity(new Enemy()));
 	}
 }
 
@@ -32,6 +32,18 @@ int Enemy::TakeDamage(int damage)
 	int d = Character::TakeDamage(damage);
 	GameContext::instance->gameInfoPanel.UpdateEnemyInfo();
 	return d;
+}
+
+void Enemy::OnTick()
+{
+	sf::Vector2f c_pos = this->Body.getPosition();
+	sf::Vector2f playerpos = GameContext::instance->MainPlayer->Body.getPosition();
+	float distanceFromPlayer =  sqrt(pow(playerpos.x - c_pos.x, 2) + pow(playerpos.y - c_pos.y, 2));
+	if (this->Alive && !GameContext::instance->MainPlayer->InBattle && !GameContext::instance->MainPlayer->Speaking && !this->Moving && this->LastTimeMoved.getElapsedTime().asSeconds() > nextMoveTime && distanceFromPlayer < 250) {
+
+		this->TryMoveTo(sf::Vector2f(c_pos.x + (rand() % 65 + (-32)), c_pos.y + (rand() % 65 + (-32))));
+		nextMoveTime = rand() % 4 + 1;
+	}
 }
 
 Enemy::Enemy()
@@ -47,7 +59,7 @@ Enemy::Enemy()
 	Defence = rand() % 2 + 1;
 	Speed = rand() % 2 + 1;
 	Luck = rand() % (30 - 5 + 1) + 5;
-
+	MovementSpeed = 0.00005;
 
 	int x = rand() % 5 + 0;
 	int y = rand() % 12 + 0;

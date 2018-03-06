@@ -179,6 +179,50 @@ bool Character::Move(Direction direction)
 	return false;
 }
 
+void Character::TryMoveTo(sf::Vector2f pos)
+{
+	MovingTo = pos;
+	Moving = true;
+	std::thread([](Character* character) {
+		bool TryingToMove = true;
+		sf::Vector2f c_pos = character->Body.getPosition();
+		GameEntity* collider;
+		float xdist = character->MovingTo.x - c_pos.x;
+		float ydist = character->MovingTo.y - c_pos.y;
+	 
+		float dist = sqrt(xdist * xdist + ydist * ydist);
+		float length = 0;
+		sf::Clock deltaTimer;
+
+		int delta = 0;
+		while (TryingToMove) {
+
+			delta = deltaTimer.getElapsedTime().asMicroseconds();
+			deltaTimer.restart();
+
+			sf::FloatRect c_bounds = character->Body.getGlobalBounds();
+
+			c_bounds.left = c_pos.x + xdist * (length / dist);
+			c_bounds.top = c_pos.y + ydist * (length / dist);
+
+			collider = GameEntity::IsColliding(c_bounds, character);
+			if (collider != NULL) {
+				TryingToMove = false;
+				break;
+			}
+
+			character->Body.setPosition(c_bounds.left, c_bounds.top);
+			length += character->MovementSpeed * delta;
+
+			if (length >= dist) {
+				TryingToMove = false;
+			}
+		}
+		character->Moving = false;
+		character->LastTimeMoved.restart();
+	}, this).detach();
+}
+
 void Character::LevelUp()
 {
 	int newHealth = rand() % 2;
