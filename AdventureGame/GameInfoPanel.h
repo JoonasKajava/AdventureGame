@@ -20,6 +20,9 @@ class GameInfoPanel : public sf::Drawable
 	std::string EnemyInfoFormat = "Health: %d/%d\nAttack: %d";
 
 
+	sf::Text FPS;
+
+
 public:
 	sf::Font ChatFont;
 	std::map<int, Button*> Buttons;
@@ -44,6 +47,8 @@ public:
 	void UpdatePlayerInfo();
 
 	void UpdateEnemyInfo();
+
+	void UpdateFPS(int fps);
 
 	void AddButton(std::string Text, int id);
 	void ClearButtons();

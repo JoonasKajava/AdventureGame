@@ -9,6 +9,7 @@ class Item : public GameEntity, public sf::Drawable
 public:
 	enum ItemType {
 		Sword,
+		Pickaxe,
 		HealingStone,
 		Shovel,
 		PurpleStone,

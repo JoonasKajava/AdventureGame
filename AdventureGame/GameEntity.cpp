@@ -19,8 +19,8 @@ GameEntity::~GameEntity()
 GameEntity* GameEntity::IsColliding(sf::FloatRect rect, GameEntity* self)
 {
 
-	for ( NPC* npc : GameContext::instance->NPCs) {
-		if (npc->Body.getGlobalBounds().intersects(rect) && npc->Alive) return npc;
+	for ( NPC* npc : GameContext::instance->NPCs ) {
+		if (npc->Body.getGlobalBounds().intersects(rect) && npc->Alive && npc != self) return npc;
 	}
 
 	for (Enemy* enemy : GameContext::instance->Enemies) {

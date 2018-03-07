@@ -12,6 +12,11 @@ GameInfoPanel::GameInfoPanel()
 
 	EnemyInfo.setOutlineColor(sf::Color::Black);
 	EnemyInfo.setOutlineThickness(2);
+
+	FPS.setFont(ChatFont);
+	FPS.setOutlineColor(sf::Color::Black);
+	FPS.setOutlineThickness(2);
+	FPS.setScale(sf::Vector2f(0.7,0.7));
 }
 
 GameInfoPanel::~GameInfoPanel()
@@ -44,15 +49,20 @@ void GameInfoPanel::Initialize()
 void GameInfoPanel::UpdatePlayerInfo()
 {
 	char buffer[400];
-	snprintf(buffer, sizeof(buffer), PlayerInfoFormat.c_str(), GameContext::instance->MainPlayer->Health, GameContext::instance->MainPlayer->MaxHealth, GameContext::instance->MainPlayer->Attack);
+	snprintf(buffer, sizeof(buffer), PlayerInfoFormat.c_str(), GameContext::instance->MainPlayer->Health, GameContext::instance->MainPlayer->MaxHealth, GameContext::instance->MainPlayer->GetAttack());
 	PlayerInfo.setString(buffer);
 }
 
 void GameInfoPanel::UpdateEnemyInfo()
 {
 	char buffer[400];
-	snprintf(buffer, sizeof(buffer), EnemyInfoFormat.c_str(), GameContext::instance->MainPlayer->fightingWith->Health, GameContext::instance->MainPlayer->fightingWith->MaxHealth, GameContext::instance->MainPlayer->fightingWith->Attack);
+	snprintf(buffer, sizeof(buffer), EnemyInfoFormat.c_str(), GameContext::instance->MainPlayer->fightingWith->Health, GameContext::instance->MainPlayer->fightingWith->MaxHealth, GameContext::instance->MainPlayer->fightingWith->GetAttack());
 	EnemyInfo.setString(buffer);
+}
+
+void GameInfoPanel::UpdateFPS(int fps)
+{
+	FPS.setString("FPS: " + std::to_string(fps));
 }
 
 
@@ -117,7 +127,7 @@ void GameInfoPanel::RecalculateInventory()
 
 void GameInfoPanel::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-
+	target.draw(FPS);
 
 	for (int i = 0; i < this->CurrentInfo->size(); i++) {
 		if (i > 6) break;

@@ -11,5 +11,9 @@ public:
 
 	int TakeDamage(int damage) override;
 
+
+private:
+	bool PlayerHasPickaxe();
+	bool Satisfied;
 };
 

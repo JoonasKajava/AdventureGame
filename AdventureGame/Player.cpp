@@ -121,6 +121,7 @@ void Player::OnSingleMouseClick(sf::Event e)
 	if (e.mouseButton.button == sf::Mouse::Button::Left) {
 
 		for (NPC* npc : GameContext::instance->NPCs) {
+			if (!npc->Alive) break;
 			sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
 			sf::FloatRect hitbox = npc->Body.getGlobalBounds();
 			sf::Vector2i location = GameContext::instance->window.mapCoordsToPixel(sf::Vector2f(hitbox.left, hitbox.top), GameContext::instance->mainView);
@@ -162,6 +163,7 @@ void Player::OnSingleMouseClick(sf::Event e)
 				GameContext::instance->gameInfoPanel.AddText("You dropped " + GameContext::instance->MainPlayer->Inventory[i]->Name);
 				GameContext::instance->MainPlayer->Inventory.erase(GameContext::instance->MainPlayer->Inventory.begin() + i);
 				GameContext::instance->gameInfoPanel.RecalculateInventory();
+				GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
 
 			}
 		}

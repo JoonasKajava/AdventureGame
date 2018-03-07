@@ -18,6 +18,10 @@ Item::Item(ItemType type, bool onground, int value, sf::Vector2f pos)
 		Name = "Rusty Sword";
 		Attack = 3;
 		break;
+	case Item::Pickaxe:
+		tex->loadFromFile("Graphics\\dg_misc32.png", sf::IntRect(192, 96, 32, 32));
+		Name = "Sturdy Pickaxe";
+		break;
 	case Item::HealingStone:
 		tex->loadFromFile("Graphics\\dg_misc32.png", sf::IntRect(64, 224, 32, 32));
 		Name = "Healing Stone";
@@ -64,13 +68,16 @@ void Item::OnClick()
 	switch (type)
 	{
 	case Item::Sword:
-		GameContext::instance->gameInfoPanel.AddText("The sword looks old and rusty");
+		GameContext::instance->gameInfoPanel.AddText("This sword looks old and rusty");
+		break;
+	case Item::Pickaxe:
+		GameContext::instance->gameInfoPanel.AddText("This pickaxe looks very tough");
 		break;
 	case Item::HealingStone:
 		GameContext::instance->gameInfoPanel.AddText("It seems to be emitting healing energy");
 		break;
 	case Item::Shovel:
-		GameContext::instance->gameInfoPanel.AddText("The shovel looks very used");
+		GameContext::instance->gameInfoPanel.AddText("This shovel looks very used");
 		break;
 	case Item::PurpleStone:
 		GameContext::instance->gameInfoPanel.AddText("This stone feels alive...");

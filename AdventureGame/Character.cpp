@@ -24,7 +24,7 @@ int Character::AttackCharacter(AttackType type, Character * target)
 	if (!InBattle) return -1;
 
 	int hitchance = this->Luck;
-	int damage = this->Attack;
+	int damage = this->GetAttack();
 
 	switch (type)
 	{
@@ -101,7 +101,7 @@ void Character::PickupItem(Item* item)
 	if (!foundCoins)
 		Inventory.push_back(item);
 
-
+	GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
 	int index = std::find(GameContext::instance->GroundItems.begin(), GameContext::instance->GroundItems.end(), item) - GameContext::instance->GroundItems.begin();
 	GameContext::instance->GroundItems.erase(GameContext::instance->GroundItems.begin() + index);
 }
@@ -112,6 +112,7 @@ bool Character::Move(Direction direction)
 
 	sf::FloatRect Bounds = Body.getGlobalBounds();
 	double speed = GameContext::instance->deltaTime * MovementSpeed;
+
 	switch (direction) {
 	case Right:
 		Bounds.left += speed;
@@ -239,4 +240,16 @@ void Character::LevelUp()
 void Character::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(Body);
+}
+
+int Character::GetAttack()
+{
+	int attack = Attack;
+	for (Item* item : Inventory) {
+		if (item->Attack > 0) {
+			attack += item->Attack;
+			break;
+		}
+	}
+	return attack;
 }

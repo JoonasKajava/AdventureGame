@@ -15,6 +15,8 @@ EventHandler::~EventHandler()
 
 void EventHandler::PollEvents() {
 
+	if (!GameContext::instance->window.hasFocus()) return;
+
 	for (GameEntity* entity : GameContext::instance->GameEntities) entity->OnTick();
 
 
