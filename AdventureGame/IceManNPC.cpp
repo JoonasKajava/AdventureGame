@@ -72,6 +72,9 @@ void IceManNPC::Speak(int newStage)
 				GameContext::instance->MainPlayer->Inventory.erase(GameContext::instance->MainPlayer->Inventory.begin() + i);
 			}
 		}
+		GameContext::instance->gameInfoPanel.RecalculateInventory();
+		GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
+
 		sf::Vector2f c_pos = this->Body.getPosition();
 		this->TryMoveTo(sf::Vector2f(c_pos.x, c_pos.y - 64));
 		break;

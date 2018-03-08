@@ -9,5 +9,7 @@ public:
 	~BridgeNPC();
 
 	void Speak(int newStage = NULL) override;
+private:
+	bool Satisfied;
 };
 

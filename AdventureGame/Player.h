@@ -34,6 +34,10 @@ public:
 
 	int TakeDamage(int damage) override;
 
+	int GetMoneyCount();
+
+	void SetMoney(int money);
+
 private:
 	float ConversationZoom = 0.3f;
 };

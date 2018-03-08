@@ -24,7 +24,7 @@ Player::Player() : Character()
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
 	Body = sf::Sprite(*playerTexture);
-	Inventory.push_back(new Item(Item::Coins, false, 10));
+	Inventory.push_back(new Item(Item::Coins, false, 100));
 	Body.setPosition(128, 128);
 }
 
@@ -266,4 +266,24 @@ int Player::TakeDamage(int damage)
 	int d = Character::TakeDamage(damage);
 	GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
 	return d;
+}
+
+int Player::GetMoneyCount()
+{
+	for (Item* item : GameContext::instance->MainPlayer->Inventory) {
+		if (item->type == Item::Coins) {
+			return item->Value;
+		}
+	}
+	return 0;
+}
+
+void Player::SetMoney(int money)
+{
+	for (Item* item : Inventory) {
+		if (item->type == Item::Coins) {
+			item->Value = money;
+			break;
+		}
+	}
 }
