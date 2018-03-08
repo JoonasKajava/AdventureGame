@@ -78,10 +78,13 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IceManNPC.h">
+      <Filter>Header Files\Entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeNPC.h">
       <Filter>Header Files\Entities\NPCs</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,10 +134,13 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IceManNPC.cpp">
+      <Filter>Source Files\Entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgeNPC.cpp">
       <Filter>Source Files\Entities\NPCs</Filter>
     </ClCompile>
   </ItemGroup>
