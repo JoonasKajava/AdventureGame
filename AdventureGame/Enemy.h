@@ -29,7 +29,8 @@ private:
 	 sf::Vector2f findFreeSpawnSpot();
 
 	 int nextMoveTime = 0;
-
+	 static bool PurpleStoneDropped;
+	 static int GetAliveEnemyCount();
 public:
 
 	static void SpawnEnemies(int maxEnemies);
@@ -37,6 +38,8 @@ public:
 	int TakeDamage(int damage) override;
 
 	void virtual OnTick();
+
+	void virtual Die();
 
 	Enemy();
 	~Enemy();

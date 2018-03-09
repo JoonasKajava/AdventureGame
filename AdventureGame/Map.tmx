@@ -2729,7 +2729,7 @@
   </tile>
   <tile id="545">
    <properties>
-    <property name="block" type="bool" value="true"/>
+    <property name="block" type="bool" value="false"/>
    </properties>
   </tile>
   <tile id="546">

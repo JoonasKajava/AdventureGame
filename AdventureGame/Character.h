@@ -55,7 +55,7 @@ public:
 
 	int AttackCharacter(AttackType type, Character* target);
 
-	void Die();
+	void virtual Die();
 
 	int virtual TakeDamage(int damage);
 	void PickupItem(Item* item);

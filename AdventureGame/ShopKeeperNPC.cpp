@@ -49,6 +49,8 @@ void ShopKeeperNPC::Speak(int newStage)
 		}
 		else {
 			GameContext::instance->gameInfoPanel.AddText("Thank you for purchasing the shovel");
+			GameContext::instance->gameInfoPanel.AddText("I noticed strange hole in the desert");
+			GameContext::instance->gameInfoPanel.AddText("I think it might have something buried in it");
 			GameContext::instance->MainPlayer->SetMoney(PlayerMoney - 40);
 			GameContext::instance->gameInfoPanel.AddButton("Thank you!", 100);
 
@@ -58,6 +60,7 @@ void ShopKeeperNPC::Speak(int newStage)
 					Inventory.erase(Inventory.begin() + i);
 				}
 			}
+			GameContext::instance->gameInfoPanel.RecalculateInventory();
 
 		}
 
@@ -80,9 +83,14 @@ void ShopKeeperNPC::Speak(int newStage)
 		GameContext::instance->gameInfoPanel.AddButton("Yes", 1);
 		}
 		else {
-			GameContext::instance->gameInfoPanel.AddText("I dont't have anything for sale right now");
+			GameContext::instance->gameInfoPanel.AddText("Did you find anything yet?");
+			GameContext::instance->gameInfoPanel.AddButton("Here should i dig?", 100);
 			GameContext::instance->gameInfoPanel.AddButton("Bye!", 100);
 		}
+		break;
+	case 4:
+		GameContext::instance->gameInfoPanel.AddText("Try digging from desert");
+		GameContext::instance->gameInfoPanel.AddButton("Bye!", 100);
 		break;
 	default:
 		GameContext::instance->MainPlayer->EndConversation();

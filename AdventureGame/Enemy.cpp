@@ -4,6 +4,8 @@
 
 #include <random>
 
+bool Enemy::PurpleStoneDropped = false;
+
 sf::Vector2f Enemy::findFreeSpawnSpot()
 {
 	bool intersects = false;
@@ -19,9 +21,21 @@ sf::Vector2f Enemy::findFreeSpawnSpot()
 	} while (intersects);
 }
 
+int Enemy::GetAliveEnemyCount()
+{
+	int AliveEnemies = 0;
+	for (Enemy* e : GameContext::instance->Enemies) {
+		if (e->Alive) {
+			AliveEnemies++;
+		}
+	}
+	return AliveEnemies;
+}
+
 void Enemy::SpawnEnemies(int maxEnemies)
 {
-	while (GameContext::instance->Enemies.size() < maxEnemies)
+
+	while (GetAliveEnemyCount() < maxEnemies)
 	{
 		GameContext::instance->Enemies.push_back(GameContext::instance->AddEntity(new Enemy()));
 	}
@@ -44,6 +58,18 @@ void Enemy::OnTick()
 		this->TryMoveTo(sf::Vector2f(c_pos.x + (rand() % 65 + (-32)), c_pos.y + (rand() % 65 + (-32))));
 		nextMoveTime = rand() % 4 + 1;
 	}
+}
+
+void Enemy::Die()
+{
+	Character::Die();
+	if (!Enemy::PurpleStoneDropped) {
+		if (rand() % 10 <= 1) {
+			GameContext::instance->GroundItems.push_back(new Item(Item::PurpleStone, true, 0, Body.getPosition()));
+			Enemy::PurpleStoneDropped = true;
+		}
+	}
+	Enemy::SpawnEnemies(30);
 }
 
 Enemy::Enemy()

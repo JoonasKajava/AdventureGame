@@ -76,9 +76,19 @@ void Item::OnClick()
 	case Item::HealingStone:
 		GameContext::instance->gameInfoPanel.AddText("It seems to be emitting healing energy");
 		break;
-	case Item::Shovel:
-		GameContext::instance->gameInfoPanel.AddText("This shovel looks very used");
+	case Item::Shovel: {
+		sf::FloatRect stoneLocation = sf::FloatRect(27 * 32, 46 * 32, 32, 32);
+		if (GameContext::instance->MainPlayer->Body.getGlobalBounds().intersects(stoneLocation) && !RedStoneFound) {
+			GameContext::instance->gameInfoPanel.AddText("You tried to dig and found red stone");
+			GameContext::instance->MainPlayer->Inventory.push_back(new Item(Item::RedStone, false));
+			GameContext::instance->gameInfoPanel.RecalculateInventory();
+			RedStoneFound = true;
+		}
+		else {
+			GameContext::instance->gameInfoPanel.AddText("You tried to dig, but you found nothing");
+		}
 		break;
+	}
 	case Item::PurpleStone:
 		GameContext::instance->gameInfoPanel.AddText("This stone feels alive...");
 		break;
