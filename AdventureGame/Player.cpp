@@ -220,6 +220,7 @@ void Player::StartFight(Character * enemy, bool Animate)
 void Player::EndFight()
 {
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+	if(!GameContext::instance->GameOver)
 	GameContext::instance->audioManager.SetMusic(AudioManager::Adventure);
 	Animator a;
 	sf::Vector2f size = GameContext::instance->mainView.getSize();

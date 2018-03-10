@@ -84,6 +84,7 @@ int Character::TakeDamage(int damage)
 
 void Character::PickupItem(Item* item)
 {
+	GameContext::instance->audioManager.PlayEffect(AudioManager::ItemPickup);
 	item->OnGround = false;
 	bool foundCoins = false;
 	if (item->type == Item::Coins) {

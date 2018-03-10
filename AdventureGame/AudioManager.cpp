@@ -34,6 +34,10 @@ AudioManager::AudioManager()
 	MissSound->loadFromFile("Sounds/miss.wav");
 	SoundEffect[Miss] = MissSound;
 
+	sf::SoundBuffer* PickUp = new sf::SoundBuffer();
+	PickUp->loadFromFile("Sounds/cloth.wav");
+	SoundEffect[ItemPickup] = PickUp;
+
 	CurrentMusic = AdventureMusic;
 	CurrentMusic->play();
 }
