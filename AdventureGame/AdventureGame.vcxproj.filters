@@ -90,6 +90,15 @@
     <ClInclude Include="ShopKeeperNPC.h">
       <Filter>Header Files\Entities\NPCs</Filter>
     </ClInclude>
+    <ClInclude Include="GuardianNPC.h">
+      <Filter>Header Files\Entities\NPCs</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +157,15 @@
     </ClCompile>
     <ClCompile Include="ShopKeeperNPC.cpp">
       <Filter>Source Files\Entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardianNPC.cpp">
+      <Filter>Source Files\Entities\NPCs</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EndScreen.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

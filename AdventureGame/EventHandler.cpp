@@ -15,11 +15,14 @@ EventHandler::~EventHandler()
 
 void EventHandler::PollEvents() {
 
+	if (!GameContext::instance->GameOver) {
+
+	
 	if (!GameContext::instance->window.hasFocus()) return;
 
 	for (GameEntity* entity : GameContext::instance->GameEntities) entity->OnTick();
 
-
+	}
 
 	while (GameContext::instance->window.pollEvent(this->event))
 	{
@@ -29,7 +32,7 @@ void EventHandler::PollEvents() {
 			GameContext::instance->window.close();
 			break;
 		case sf::Event::MouseButtonReleased:
-			GameContext::instance->MainPlayer->OnSingleMouseClick(this->event);
+			if (!GameContext::instance->GameOver) GameContext::instance->MainPlayer->OnSingleMouseClick(this->event);
 			break;
 		default:
 			break;

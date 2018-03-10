@@ -34,7 +34,7 @@ void ShopKeeperNPC::Speak(int newStage)
 	case 0:
 		GameContext::instance->gameInfoPanel.AddText("Hello customer!", Name);
 		GameContext::instance->gameInfoPanel.AddText("I have this nice shovel for sale", Name);
-		GameContext::instance->gameInfoPanel.AddText("It's only 40 gold coins!", Name);
+		GameContext::instance->gameInfoPanel.AddText("It's only 25 gold coins!", Name);
 		GameContext::instance->gameInfoPanel.AddText("I will also tell some secrects if you buy it", Name);
 
 		GameContext::instance->gameInfoPanel.AddButton("I will buy it", 1);
@@ -43,15 +43,15 @@ void ShopKeeperNPC::Speak(int newStage)
 		break;
 	case 1: {
 		int PlayerMoney = GameContext::instance->MainPlayer->GetMoneyCount();
-		if (PlayerMoney < 40) {
-			GameContext::instance->gameInfoPanel.AddText("It seems you are " + std::to_string(40 - PlayerMoney) + " gold coins short");
+		if (PlayerMoney < 25) {
+			GameContext::instance->gameInfoPanel.AddText("It seems you are " + std::to_string(25 - PlayerMoney) + " gold coins short");
 			GameContext::instance->gameInfoPanel.AddButton("I will came back", 100);
 		}
 		else {
 			GameContext::instance->gameInfoPanel.AddText("Thank you for purchasing the shovel");
 			GameContext::instance->gameInfoPanel.AddText("I noticed strange hole in the desert");
 			GameContext::instance->gameInfoPanel.AddText("I think it might have something buried in it");
-			GameContext::instance->MainPlayer->SetMoney(PlayerMoney - 40);
+			GameContext::instance->MainPlayer->SetMoney(PlayerMoney - 25);
 			GameContext::instance->gameInfoPanel.AddButton("Thank you!", 100);
 
 			for (int i = 0; i < Inventory.size(); i++) {

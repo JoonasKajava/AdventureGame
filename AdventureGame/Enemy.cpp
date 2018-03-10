@@ -84,12 +84,12 @@ Enemy::Enemy()
 	Attack = rand() % 2 + 1;
 	Defence = rand() % 2 + 1;
 	Speed = rand() % 2 + 1;
-	Luck = rand() % (30 - 5 + 1) + 5;
+	Luck = 0;
 	MovementSpeed = 0.00005;
 
 	int x = rand() % 5 + 0;
 	int y = rand() % 12 + 0;
-	Inventory.push_back(new Item(Item::Coins, false, rand() % 5 + 1));
+	Inventory.push_back(new Item(Item::Coins, false, rand() % 10 + 1));
 
 	CharacterTexture->loadFromFile("Graphics/dg_monster432.png", sf::IntRect(x * 32, y * 32, 32, 32));
 	Body = sf::Sprite(*CharacterTexture);

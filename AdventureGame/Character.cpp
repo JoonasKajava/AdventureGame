@@ -67,6 +67,7 @@ void Character::Die()
 	Alive = false;
 	for (int i = 0; i < Inventory.size(); i++) {
 		Inventory[i]->OnGround = true;
+		Inventory[i]->Body.setScale(1, 1);
 		Inventory[i]->Body.setPosition(this->Body.getPosition());
 		GameContext::instance->GroundItems.push_back(Inventory[i]);
 		Inventory.erase(Inventory.begin() + i);
@@ -180,17 +181,17 @@ bool Character::Move(Direction direction)
 	return false;
 }
 
-void Character::TryMoveTo(sf::Vector2f pos)
+void Character::TryMoveTo(sf::Vector2f pos, bool IgnoreCollision)
 {
 	MovingTo = pos;
 	Moving = true;
-	std::thread([](Character* character) {
+	std::thread([](Character* character, bool ic) {
 		bool TryingToMove = true;
 		sf::Vector2f c_pos = character->Body.getPosition();
 		GameEntity* collider;
 		float xdist = character->MovingTo.x - c_pos.x;
 		float ydist = character->MovingTo.y - c_pos.y;
-	 
+
 		float dist = sqrt(xdist * xdist + ydist * ydist);
 		float length = 0;
 		sf::Clock deltaTimer;
@@ -206,12 +207,14 @@ void Character::TryMoveTo(sf::Vector2f pos)
 			c_bounds.left = c_pos.x + xdist * (length / dist);
 			c_bounds.top = c_pos.y + ydist * (length / dist);
 
-			collider = GameEntity::IsColliding(c_bounds, character);
-			if (collider != NULL) {
-				TryingToMove = false;
-				break;
-			}
+			if (!ic) {
 
+				collider = GameEntity::IsColliding(c_bounds, character);
+				if (collider != NULL) {
+					TryingToMove = false;
+					break;
+				}
+			}
 			character->Body.setPosition(c_bounds.left, c_bounds.top);
 			length += character->MovementSpeed * delta;
 
@@ -221,7 +224,7 @@ void Character::TryMoveTo(sf::Vector2f pos)
 		}
 		character->Moving = false;
 		character->LastTimeMoved.restart();
-	}, this).detach();
+	}, this, IgnoreCollision).detach();
 }
 
 void Character::LevelUp()
@@ -252,4 +255,12 @@ int Character::GetAttack()
 		}
 	}
 	return attack;
+}
+
+bool Character::HasItem(Item::ItemType type)
+{
+	for (Item* item : Inventory) {
+		if (item->type == type) return true;
+	}
+	return false;
 }

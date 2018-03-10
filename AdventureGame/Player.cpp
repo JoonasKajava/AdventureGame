@@ -24,7 +24,7 @@ Player::Player() : Character()
 	sf::Texture* playerTexture = new sf::Texture();
 	playerTexture->loadFromFile("Graphics/Characters.png", sf::IntRect(160, 128, 32, 32));
 	Body = sf::Sprite(*playerTexture);
-	Inventory.push_back(new Item(Item::Coins, false, 100));
+	Inventory.push_back(new Item(Item::Coins, false, 15));
 	Body.setPosition(128, 128);
 }
 
@@ -35,7 +35,7 @@ Player::~Player()
 void Player::OnTick() {
 
 	for (Item* item : Inventory) {
-		if (item->type == Item::HealingStone && RegenerationTimer.getElapsedTime().asSeconds() > 5 && !InBattle) {
+		if (item->type == Item::HealingStone && RegenerationTimer.getElapsedTime().asSeconds() > 3 && !InBattle) {
 			if (Health < MaxHealth) {
 				Health++;
 				GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
@@ -85,11 +85,15 @@ void Player::OnSingleMouseClick(sf::Event e)
 			if (b.second->box.getGlobalBounds().contains(pos.x, pos.y)) {
 				if (GameContext::instance->MainPlayer->fightingWith != NULL && b.first != 100) {
 					int damage = GameContext::instance->MainPlayer->AttackCharacter((AttackType)b.first, GameContext::instance->MainPlayer->fightingWith);
+					
 					GameContext::instance->gameInfoPanel.AddText("You tried to " + AttackNames[b.first] + " and it " + (damage > 0 ? ("dealt " + std::to_string(damage) + " damage") : "missed"));
+					if (GameContext::instance->MainPlayer->fightingWith->Alive) {
 
+					
 					int attack = rand() % 2;
 					int tookdamage = GameContext::instance->MainPlayer->fightingWith->AttackCharacter((AttackType)attack, GameContext::instance->MainPlayer);
 					GameContext::instance->gameInfoPanel.AddText(GameContext::instance->MainPlayer->fightingWith->Name + " tried to " + AttackNames[attack] + " and it " + (tookdamage > 0 ? ("dealt " + std::to_string(tookdamage) + " damage") : "missed"));
+					}
 				}
 				else if (GameContext::instance->MainPlayer->fightingWith != NULL && b.first == 100) {
 					int chancebuff = GameContext::instance->MainPlayer->Luck + GameContext::instance->MainPlayer->Speed;
@@ -109,7 +113,10 @@ void Player::OnSingleMouseClick(sf::Event e)
 				if (!fightingWith->Alive) {
 					this->LevelUp();
 					GameContext::instance->gameInfoPanel.UpdatePlayerInfo();
-					for (Enemy* enemy : GameContext::instance->Enemies) enemy->LevelUp();
+					for (Enemy* enemy : GameContext::instance->Enemies) {
+						if(rand() % 2 == 0)
+						enemy->LevelUp();
+					};
 					EndFight();
 				};
 				break;
@@ -119,7 +126,6 @@ void Player::OnSingleMouseClick(sf::Event e)
 
 
 	if (e.mouseButton.button == sf::Mouse::Button::Left) {
-
 		for (NPC* npc : GameContext::instance->NPCs) {
 			if (!npc->Alive) break;
 			sf::Vector2i pos = sf::Mouse::getPosition(GameContext::instance->window);
@@ -286,4 +292,11 @@ void Player::SetMoney(int money)
 			break;
 		}
 	}
+}
+
+void Player::Die()
+{
+	Character::Die();
+	GameContext::instance->GameOver = true;
+	GameContext::instance->endScreen.SetText(false);
 }

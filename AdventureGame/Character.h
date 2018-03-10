@@ -62,7 +62,7 @@ public:
 
 	bool Move(Direction direction);
 
-	void TryMoveTo(sf::Vector2f pos);
+	void TryMoveTo(sf::Vector2f pos, bool IgnoreCollision = false);
 
 	void LevelUp();
 
@@ -71,5 +71,7 @@ public:
 
 
 	int GetAttack();
+
+	bool HasItem(Item::ItemType type);
 };
 

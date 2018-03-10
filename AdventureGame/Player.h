@@ -38,6 +38,8 @@ public:
 
 	void SetMoney(int money);
 
+	void virtual Die() override;
+
 private:
 	float ConversationZoom = 0.3f;
 };

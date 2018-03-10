@@ -45,6 +45,7 @@ void IceManNPC::Speak(int newStage)
 		GameContext::instance->MainPlayer->EndConversation(false);
 		GameContext::instance->MainPlayer->StartFight(this, false);
 		GameContext::instance->gameInfoPanel.AddText("You have to fight me if you want it", Name);
+		ConversationStage = 4;
 		break;
 	case 2:
 		GameContext::instance->gameInfoPanel.AddText("I lost my pickaxe", Name);

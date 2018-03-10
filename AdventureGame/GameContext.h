@@ -7,6 +7,7 @@
 #include "EventHandler.h"
 #include "Environment.h"
 #include "GameInfoPanel.h"
+#include "EndScreen.h"
 #include "NPC.h"
 #include "Enemy.h"
 #include <thread>
@@ -25,6 +26,8 @@ public:
 	EventHandler eventHandler;
 	GameInfoPanel gameInfoPanel;
 
+	EndScreen endScreen;
+
 
 	Player* MainPlayer;
 
@@ -32,6 +35,7 @@ public:
 	std::vector<Enemy*> Enemies;
 
 	std::vector<Item*> GroundItems;
+	bool GameOver;
 
 	template<class T>
 	T* AddEntity(T* entity);
