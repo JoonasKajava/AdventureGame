@@ -17,3 +17,5 @@ This game was created as part of practicing c++.
 
 ### Music
 The Adventure Begins by Bart Kelsey
+Battle music by Matthew Pablo
+http://www.matthewpablo.com
