@@ -19,3 +19,13 @@ This game was created as part of practicing c++.
 The Adventure Begins by Bart Kelsey  
 Battle music by Matthew Pablo
 http://www.matthewpablo.com
+
+
+ Metaruka - The End (Death Screen mix by Avgvst) Opengameart licensed under CC-BY-SA 3.0
+"Game-Game" Soundtrack by "maxstack" from Opengameart licensed under CC-BY-SA 3.0
+
+http://opengameart.org/content/game-game
+
+### Graphics
+Roguelike Tiles (large collection) by David E. Gervais
+https://opengameart.org/content/roguelike-tiles-large-collection
