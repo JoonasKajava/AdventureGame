@@ -34,4 +34,5 @@ void Boss::Die()
 	Enemy::Die();
 	GameContext::instance->endScreen.SetText(true);
 	GameContext::instance->GameOver = true;
+	GameContext::instance->audioManager.SetMusic(AudioManager::Win);
 }

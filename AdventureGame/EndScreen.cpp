@@ -43,10 +43,10 @@ void EndScreen::UpdateOpacity()
 void EndScreen::SetText(bool win)
 {
 	if (win) {
-		EndMessage.setString("You won!");
+		EndMessage.setString("You Won!");
 	}
 	else {
-		EndMessage.setString("You died!");
+		EndMessage.setString("You Died!");
 	}
 	sf::FloatRect bounds = EndMessage.getGlobalBounds();
 	EndMessage.setPosition(1000 / 2 - bounds.width / 2, 900 / 2 - bounds.height / 2 - 200);

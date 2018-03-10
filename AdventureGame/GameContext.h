@@ -10,6 +10,7 @@
 #include "EndScreen.h"
 #include "NPC.h"
 #include "Enemy.h"
+#include "AudioManager.h"
 #include <thread>
 
 class GameContext
@@ -25,6 +26,8 @@ public:
     Environment environment;
 	EventHandler eventHandler;
 	GameInfoPanel gameInfoPanel;
+
+	AudioManager audioManager;
 
 	EndScreen endScreen;
 

@@ -87,6 +87,13 @@ void Player::OnSingleMouseClick(sf::Event e)
 					int damage = GameContext::instance->MainPlayer->AttackCharacter((AttackType)b.first, GameContext::instance->MainPlayer->fightingWith);
 					
 					GameContext::instance->gameInfoPanel.AddText("You tried to " + AttackNames[b.first] + " and it " + (damage > 0 ? ("dealt " + std::to_string(damage) + " damage") : "missed"));
+					
+					if (damage <= 0) {
+						GameContext::instance->audioManager.PlayEffect(AudioManager::Miss);
+					}else {
+						GameContext::instance->audioManager.PlayEffect(AudioManager::Swing);
+					}
+
 					if (GameContext::instance->MainPlayer->fightingWith->Alive) {
 
 					
@@ -178,6 +185,7 @@ void Player::OnSingleMouseClick(sf::Event e)
 
 void Player::StartFight(Character * enemy, bool Animate)
 {
+	GameContext::instance->audioManager.SetMusic(AudioManager::Battle);
 	if (Animate) {
 		Animator centerer;
 		sf::Vector2f enemypos = enemy->Body.getPosition();
@@ -212,6 +220,7 @@ void Player::StartFight(Character * enemy, bool Animate)
 void Player::EndFight()
 {
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+	GameContext::instance->audioManager.SetMusic(AudioManager::Adventure);
 	Animator a;
 	sf::Vector2f size = GameContext::instance->mainView.getSize();
 	a.AnimateValue<sf::View, float>(&GameContext::instance->mainView, static_cast<void (sf::View::*)(float, float)>(&sf::View::setSize), size.x, size.y, size.x / ConversationZoom, size.y / ConversationZoom, 500);
@@ -228,6 +237,7 @@ void Player::EndFight()
 
 void Player::StartConversation(NPC * npc)
 {
+
 	Animator centerer;
 	sf::Vector2f npcpos = npc->Body.getPosition();
 	sf::Vector2f currentcenter = GameContext::instance->mainView.getCenter();
@@ -246,6 +256,7 @@ void Player::StartConversation(NPC * npc)
 void Player::EndConversation(bool Animation)
 {
 	GameContext::instance->gameInfoPanel.SetState(GameInfoPanel::World);
+
 	if (Animation) {
 
 
@@ -299,4 +310,5 @@ void Player::Die()
 	Character::Die();
 	GameContext::instance->GameOver = true;
 	GameContext::instance->endScreen.SetText(false);
+	GameContext::instance->audioManager.SetMusic(AudioManager::Death);
 }
