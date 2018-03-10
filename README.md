@@ -14,3 +14,6 @@ This game was created as part of practicing c++.
 * Basic animations
 * Basic chat / game information channel
 * Simple enemy AI
+
+### Music
+The Adventure Begins by Bart Kelsey
