@@ -14,3 +14,20 @@ This game was created as part of practicing c++.
 * Basic animations
 * Basic chat / game information channel
 * Simple enemy AI
+
+### Music
+The Adventure Begins by Bart Kelsey  
+Battle music by Matthew Pablo
+http://www.matthewpablo.com
+
+
+ Metaruka - The End (Death Screen mix by Avgvst) Opengameart licensed under CC-BY-SA 3.0
+"Game-Game" Soundtrack by "maxstack" from Opengameart licensed under CC-BY-SA 3.0
+http://opengameart.org/content/game-game
+
+Generic 8-bit JRPG Soundtrack by t4ngr4m
+https://opengameart.org/content/generic-8-bit-jrpg-soundtrack
+
+### Graphics
+Roguelike Tiles (large collection) by David E. Gervais
+https://opengameart.org/content/roguelike-tiles-large-collection
